@@ -9,6 +9,6 @@
 <body>
 
 <%  response.sendRedirect("index"); %>
-欢迎你
+欢迎你，我的朋友
 </body>
 </html>

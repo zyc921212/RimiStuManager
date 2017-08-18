@@ -20,9 +20,31 @@ public class UserController {
 
 	@RequestMapping("/index.do")
 	public String any(String userLoginName, String userPs,HttpServletRequest request) {
-		
-			return "/stu/index";
-		
+		Cookie[] coos = request.getCookies();
+		if (coos != null) {
+			for (int i = 0; i < coos.length; i++) {
+				if (coos[i].getName().equals("userLoginName")) {
+					userLoginName = coos[i].getValue();
+				}
+				if (coos[i].getName().equals("userPs")) {
+					userPs = coos[i].getValue();
+				}
+			}
+			UserBean ub = us.login(userLoginName, userPs);
+			if (ub!= null) {
+				if (ub.getUserRole() == 1) {
+					return "user/index";
+				} else if (ub.getUserRole() == 2) {
+					return "stu/index";
+				} else {
+					return "page-login";
+				}
+			}else {
+				return "page-login";
+			}
+		} else {
+			return "page-login";
+		}
 	}
 
 	@RequestMapping("/login.do")

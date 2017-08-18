@@ -34,14 +34,11 @@
 		<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		    <!-- mybatis核心配置文件的路径 -->
 			
-			<property name="dataSource" ref="dataSource"></property>
-<<<<<<< HEAD:SSM2/src/main/resources/Springmvc-servlet.xml
-=======
 			
->>>>>>> master:SSM2/src/main/resources/Springmvc-servlet.xml
 			<property name="typeAliasesPackage"  value="com.rimi.bean"></property>
-			<!-- 加载关系映射文件 -->
-			<property name="mapperLocations" value="classpath:com/rimi/daoImpl/*/xml"></property>
+		
+			<property name="mapperLocations" value="classpath:com/rimi/daoImpl/*.xml"></property>
+			<property name="dataSource" ref="dataSource"></property> 
 		</bean>		
 		
 		<!-- dao -->
@@ -50,11 +47,7 @@
 			<property name="mapperInterface" value="com.rimi.dao.UserDao"></property>
 			<property name="sqlSessionFactory"  ref="sessionFactory"></property>
 		</bean>
-<<<<<<< HEAD:SSM2/src/main/resources/Springmvc-servlet.xml
-=======
-			
->>>>>>> master:SSM2/src/main/resources/Springmvc-servlet.xml
-		
+
 		
 		
 		<!-- ud 相当于变量    class 是该类的类型 -->

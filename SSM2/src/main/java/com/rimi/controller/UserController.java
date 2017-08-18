@@ -74,12 +74,12 @@ public class UserController {
 					return "page-login";
 				}
 			} else {
-				model.addAttribute("psIsOk", "错误！");
+				model.addAttribute("psIsOk", "密码错误！");
 				model.addAttribute("userLoginName", userLoginName);
 				return "page-login";
 			}
 		} else {
-			model.addAttribute("nameIsOk", "错误！");
+			model.addAttribute("nameIsOk", "用户名错误！");
 			return "page-login";
 		}
 	}

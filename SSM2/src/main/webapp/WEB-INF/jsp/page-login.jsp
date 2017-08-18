@@ -43,11 +43,11 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             <form class="form-auth-small" action="login.do" method="post">
                                 <div class="form-group">
                                     <label for="signin-email" class="control-label sr-only">Email</label>
-                                    <input type="email" class="form-control" id="signin-email" name="userLoginName" value="${userLoginName}" placeholder="用户名${nameIsOk}">
+                                    <input type="email" class="form-control" id="signin-email" name="userLoginName" value="${userLoginName}" placeholder="用户名">
                                 </div>
                                 <div class="form-group">
                                     <label for="signin-password" class="control-label sr-only">Password</label>
-                                    <input type="password" class="form-control" id="signin-password" name="userPs" value="${userPs}" placeholder="密码${psIsOk}">
+                                    <input type="password" class="form-control" id="signin-password" name="userPs" value="${userPs}" placeholder="密码">
                                 </div>
                                 <div class="form-group clearfix">
                                     <label class="fancy-checkbox element-left">
@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                 </div>
                                 <input type="submit" class="btn btn-primary btn-lg btn-block" value="登录">
                                 <div class="bottom">
-                                    <span class="helper-text"><i class="fa fa-lock"></i> <a href="#">Forgot password?</a></span>
+                                    <span class="helper-text"><span class="text-danger">${nameIsOk}${psIsOk}</span>
                                 </div>
                             </form>
                         </div>

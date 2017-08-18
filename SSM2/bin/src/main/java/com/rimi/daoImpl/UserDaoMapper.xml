@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 
 <!-- 配置对应的接口 -->
-<!-- <mapper  namespace="com.rimi.dao.UserDao">
+<mapper  namespace="com.rimi.dao.UserDao">
  	
  	<resultMap type="UserBean" id="rm">
  		<id property="userId"   column="id" />
@@ -19,4 +19,4 @@
  	<insert id="register" parameterType="UserBean">
  		insert into userbean values(#{userId},#{userName},#{userPs})
  	</insert>
-</mapper> -->
+</mapper>

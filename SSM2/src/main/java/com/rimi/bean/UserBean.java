@@ -1,6 +1,7 @@
 package com.rimi.bean;
 
 public class UserBean {
+<<<<<<< HEAD
 	private int userId;				//用户ID
 	private String userLoginName;	//用户登录名（唯一）
 	private String userName;		//用户姓名
@@ -121,4 +122,7 @@ public class UserBean {
 	public UserBean() {
 		super();
 	}
+=======
+
+>>>>>>> master
 }

@@ -14,6 +14,7 @@
 		<!--制定控制层的包  -->
 		<context:component-scan base-package="com.rimi.controller"></context:component-scan>
 		<!-- 开启注解编程 -->
+		
 		<mvc:annotation-driven></mvc:annotation-driven>
 		
 		<!-- 视图解析器 -->
@@ -27,21 +28,14 @@
 			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 			<property name="username" value="root"></property>
 			<property name="password"  value="123"></property>
-			<property name="url"  value="jdbc:mysql://localhost:3306/rimi"></property>
+			<property name="url"  value="jdbc:mysql://localhost:3306/test"></property>
 		</bean>		
 
 		<!-- session工厂 -->
 		<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		    <!-- mybatis核心配置文件的路径 -->
-			
+			<property name="configLocation" value="classpath:src/main/resources/mybatis-config.xml"></property>
 			<property name="dataSource" ref="dataSource"></property>
-<<<<<<< HEAD:SSM2/src/main/resources/Springmvc-servlet.xml
-=======
-			
->>>>>>> master:SSM2/src/main/resources/Springmvc-servlet.xml
-			<property name="typeAliasesPackage"  value="com.rimi.bean"></property>
-			<!-- 加载关系映射文件 -->
-			<property name="mapperLocations" value="classpath:com/rimi/daoImpl/*/xml"></property>
 		</bean>		
 		
 		<!-- dao -->
@@ -50,10 +44,7 @@
 			<property name="mapperInterface" value="com.rimi.dao.UserDao"></property>
 			<property name="sqlSessionFactory"  ref="sessionFactory"></property>
 		</bean>
-<<<<<<< HEAD:SSM2/src/main/resources/Springmvc-servlet.xml
-=======
 			
->>>>>>> master:SSM2/src/main/resources/Springmvc-servlet.xml
 		
 		
 		
@@ -69,8 +60,5 @@
 	<!--<bean id="ud"  class="com.rimi.dao.UserDaoImpl"></bean> -->
 	
 	<!-- service -->
-	<bean id="us" class="com.rimi.service.UserServiceImpl">
-	<property name="ud" ref="ud"></property>
-	</bean>
 
 </beans>

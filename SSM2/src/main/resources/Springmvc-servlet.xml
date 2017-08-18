@@ -34,8 +34,11 @@
 		<!-- session工厂 -->
 		<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		    <!-- mybatis核心配置文件的路径 -->
-			<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+			
 			<property name="dataSource" ref="dataSource"></property>
+			<property name="typeAliasesPackage"  value="com.rimi.bean"></property>
+			<!-- 加载关系映射文件 -->
+			<property name="mapperLocations" value="classpath:com/rimi/daoImpl/*/xml"></property>
 		</bean>		
 		
 		<!-- dao -->

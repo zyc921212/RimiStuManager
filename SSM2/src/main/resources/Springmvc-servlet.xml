@@ -28,7 +28,7 @@
 			<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 			<property name="username" value="root"></property>
 			<property name="password"  value="123"></property>
-			<property name="url"  value="jdbc:mysql://localhost:3306/test"></property>
+			<property name="url"  value="jdbc:mysql://localhost:3306/rimi"></property>
 		</bean>		
 
 		<!-- session工厂 -->
@@ -42,11 +42,6 @@
 		<bean id="ud" class="org.mybatis.spring.mapper.MapperFactoryBean">
 			<!-- 接口 -->
 			<property name="mapperInterface" value="com.rimi.dao.UserDao"></property>
-			<property name="sqlSessionFactory"  ref="sessionFactory"></property>
-		</bean>
-			<bean id="bd" class="org.mybatis.spring.mapper.MapperFactoryBean">
-			<!-- 接口 -->
-			<property name="mapperInterface" value="com.rimi.dao.BookDao"></property>
 			<property name="sqlSessionFactory"  ref="sessionFactory"></property>
 		</bean>
 		
@@ -64,5 +59,8 @@
 	<!--<bean id="ud"  class="com.rimi.dao.UserDaoImpl"></bean> -->
 	
 	<!-- service -->
+	<bean id="us" class="com.rimi.service.UserServiceImpl">
+	<property name="ud" ref="ud"></property>
+	</bean>
 
 </beans>

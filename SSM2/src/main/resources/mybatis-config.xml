@@ -5,7 +5,9 @@
 	<!-- 别名 -->
 	<typeAliases>
 		<package name="com.rimi.bean"></package>
-	
+		<package name="com.rimi.dao"></package>
+		<package name="com.rimi.service"></package>
+		
 	
 		
 	</typeAliases>
@@ -23,7 +25,7 @@
 	</environments> -->
 	<!-- 加载关系映射文件  mapper.xml -->
 	<mappers>
-		<mapper resource="UserDaoMapper.xml"/>
+		<mapper resource="com/rimi/daoImpl/UserDaoMapper.xml"/>
 	</mappers>
 	
 </configuration>

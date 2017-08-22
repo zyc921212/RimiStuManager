@@ -50,7 +50,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/login.do")
-	public String login(String userLoginName, String userPs, String remember, Model model,
+	public String login(String userLoginName, String userPs, String remember, Model model,HttpServletRequest request,
 			HttpServletResponse response) {
 
 		UserBean ub = us.login(userLoginName, userPs);
@@ -62,8 +62,8 @@ public class UserController {
 						if (remember.equals("Checked")) {
 							Cookie userLoginNameCookie = new Cookie("userLoginName", userLoginName);
 							Cookie userPsCookie = new Cookie("userPs", userPs);
-							userLoginNameCookie.setMaxAge(2 * 60);
-							userPsCookie.setMaxAge(2 * 60);
+							userLoginNameCookie.setMaxAge(2*60);
+							userPsCookie.setMaxAge(2*60);
 							response.addCookie(userLoginNameCookie);
 							response.addCookie(userPsCookie);
 						}
@@ -87,7 +87,7 @@ public class UserController {
 				return "page-login";
 			}
 		} else {
-			return "page-login";
+			return any(userLoginName, userPs, request);
 		}
 	}
 }

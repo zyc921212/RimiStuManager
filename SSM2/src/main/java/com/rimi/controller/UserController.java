@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.rimi.bean.UserBean;
 import com.rimi.service.UserService;
 
 @Controller
+@SessionAttributes("ub")
 public class UserController {
 
 	@Autowired
@@ -53,33 +55,38 @@ public class UserController {
 
 		UserBean ub = us.login(userLoginName, userPs);
 		if (ub != null) {
-			if (ub.getUserPs().equals(userPs)) {
-				try {
-					if (remember.equals("Checked")) {
-						Cookie userLoginNameCookie = new Cookie("userLoginName", userLoginName);
-						Cookie userPsCookie = new Cookie("userPs", userPs);
-						userLoginNameCookie.setMaxAge(2 * 60);
-						userPsCookie.setMaxAge(2 * 60);
-						response.addCookie(userLoginNameCookie);
-						response.addCookie(userPsCookie);
+			if (ub.getUserLoginName().equals(userLoginName)) {
+				if (ub.getUserPs().equals(userPs)) {
+					model.addAttribute("ub",ub);
+					try {
+						if (remember.equals("Checked")) {
+							Cookie userLoginNameCookie = new Cookie("userLoginName", userLoginName);
+							Cookie userPsCookie = new Cookie("userPs", userPs);
+							userLoginNameCookie.setMaxAge(2 * 60);
+							userPsCookie.setMaxAge(2 * 60);
+							response.addCookie(userLoginNameCookie);
+							response.addCookie(userPsCookie);
+						}
+					} catch (Exception e) {
+						// TODO: handle exception
 					}
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-				if (ub.getUserRole() == 1) {
-					return "user/index";
-				} else if (ub.getUserRole() == 2) {
-					return "stu/index";
+					if (ub.getUserRole() == 1) {
+						return "user/index";
+					} else if (ub.getUserRole() == 2) {
+						return "stu/index";
+					} else {
+						return "page-login";
+					}
 				} else {
+					model.addAttribute("psIsOk", "密码错误！");
+					model.addAttribute("userLoginName", userLoginName);
 					return "page-login";
 				}
 			} else {
-				model.addAttribute("psIsOk", "密码错误！");
-				model.addAttribute("userLoginName", userLoginName);
+				model.addAttribute("${nameIsOk}", "密码错误！");
 				return "page-login";
 			}
 		} else {
-			model.addAttribute("nameIsOk", "用户名错误！");
 			return "page-login";
 		}
 	}

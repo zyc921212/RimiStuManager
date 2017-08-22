@@ -17,21 +17,12 @@
 	 	<init-param> <param-name>contextConfigLocation</param-name> <param-value>classpath*:Springmvc-servlet.xml</param-value> 
 		</init-param>
 		
-
-		
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Springmvc</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-
-
-
-
-
-
-
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
@@ -41,4 +32,9 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/jsp/page-login.jsp</location>
+	</error-page>
 </web-app>

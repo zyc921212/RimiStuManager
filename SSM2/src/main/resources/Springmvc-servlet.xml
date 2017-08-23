@@ -67,7 +67,7 @@
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/*"/>
+			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/index.do"/>
 			<mvc:exclude-mapping path="/login.do"/>
 			<bean class="com.rimi.interceptor.LoginInterceptor"></bean>

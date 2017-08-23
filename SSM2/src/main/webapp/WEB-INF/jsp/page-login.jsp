@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             <form class="form-auth-small" action="login.do" method="post">
                                 <div class="form-group">
                                     <label for="signin-email" class="control-label sr-only">Email</label>
-                                    <input type="email" class="form-control" id="signin-email" name="userLoginName" value="${userLoginName}" placeholder="用户名">
+                                    <input type="text" class="form-control" id="signin-email" name="userLoginName" value="${userLoginName}" placeholder="用户名">
                                 </div>
                                 <div class="form-group">
                                     <label for="signin-password" class="control-label sr-only">Password</label>
@@ -57,7 +57,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                 </div>
                                 <input type="submit" class="btn btn-primary btn-lg btn-block" value="登录">
                                 <div class="bottom">
-                                    <span class="helper-text"><span class="text-danger">${nameIsOk}${psIsOk}</span>
+                                    <span class="text-danger">${nameIsOk} ${psIsOk} ${userState}</span>
                                 </div>
                             </form>
                         </div>

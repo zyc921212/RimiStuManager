@@ -3,6 +3,7 @@ package com.rimi.controller;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class UserController {
 	UserService us;
 
 	@RequestMapping("/index.do")
-	public String any(String userLoginName, String userPs,HttpServletRequest request) {
+	public String any(String userLoginName, String userPs, HttpServletRequest request,HttpSession session) {
 		Cookie[] coos = request.getCookies();
 		if (coos != null) {
 			for (int i = 0; i < coos.length; i++) {
@@ -33,12 +34,21 @@ public class UserController {
 				}
 			}
 			UserBean ub = us.login(userLoginName, userPs);
-			if (ub!= null) {
-				if (ub.getUserRole() == 1) {
-					return "user/index";
-				} else if (ub.getUserRole() == 2) {
-					return "stu/index";
+			if (ub != null) {
+				if (ub.getUserState() == 1 && (ub.getUserJobState() == 1 || ub.getUserJobState() == 2)) {
+					if (ub.getUserRole() == 1) {
+						session.setAttribute("ub", ub);
+						request.setAttribute("nameIsOk", "");
+						return "user/index";
+					} else if (ub.getUserRole() == 2) {
+						session.setAttribute("ub", ub);
+						request.setAttribute("nameIsOk", "");
+						return "stu/index";
+					} else {
+						return "page-login";
+					}
 				} else {
+					request.setAttribute("userState", "该用户已经离职或者被禁用，无法登录 ！");
 					return "page-login";
 				}
 			}else {
@@ -50,20 +60,19 @@ public class UserController {
 	}
 
 	@RequestMapping("/login.do")
-	public String login(String userLoginName, String userPs, String remember, Model model,HttpServletRequest request,
-			HttpServletResponse response) {
-
+	public String login(String userLoginName, String userPs, String remember, Model model, HttpServletRequest request,
+			HttpServletResponse response,HttpSession session) {
+		request.setAttribute("nameIsOk","");
 		UserBean ub = us.login(userLoginName, userPs);
 		if (ub != null) {
-			if (ub.getUserLoginName().equals(userLoginName)) {
-				if (ub.getUserPs().equals(userPs)) {
-					model.addAttribute("ub",ub);
+			if (ub.getUserPs().equals(userPs)) {
+				if (ub.getUserState() == 1 && (ub.getUserJobState() == 1 || ub.getUserJobState() == 2)) {
 					try {
 						if (remember.equals("Checked")) {
 							Cookie userLoginNameCookie = new Cookie("userLoginName", userLoginName);
 							Cookie userPsCookie = new Cookie("userPs", userPs);
-							userLoginNameCookie.setMaxAge(2*60);
-							userPsCookie.setMaxAge(2*60);
+							userLoginNameCookie.setMaxAge(2 * 60);
+							userPsCookie.setMaxAge(2 * 60);
 							response.addCookie(userLoginNameCookie);
 							response.addCookie(userPsCookie);
 						}
@@ -71,23 +80,31 @@ public class UserController {
 						// TODO: handle exception
 					}
 					if (ub.getUserRole() == 1) {
+						session.setAttribute("ub", ub);
+						request.setAttribute("nameIsOk", "");
 						return "user/index";
 					} else if (ub.getUserRole() == 2) {
+						session.setAttribute("ub", ub);
+						request.setAttribute("nameIsOk", "");
 						return "stu/index";
 					} else {
 						return "page-login";
 					}
 				} else {
-					model.addAttribute("psIsOk", "密码错误！");
-					model.addAttribute("userLoginName", userLoginName);
+					model.addAttribute("userState", "该用户已经离职或者被禁用，无法登录 ！");
 					return "page-login";
 				}
 			} else {
-				model.addAttribute("${nameIsOk}", "密码错误！");
+				model.addAttribute("psIsOk", "密码错误！");
+				request.setAttribute("userLoginName", userLoginName);
 				return "page-login";
 			}
+		} else if(userLoginName == null || userLoginName.equals("")){
+			request.setAttribute("nameIsOk", "用户名不能为空！");
+			return any(userLoginName, userPs, request,session);
 		} else {
-			return any(userLoginName, userPs, request);
+			request.setAttribute("nameIsOk", "用户名不存在！");
+			return any(userLoginName, userPs, request,session);
 		}
 	}
 }

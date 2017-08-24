@@ -22,89 +22,78 @@ public class UserController {
 	UserService us;
 
 	@RequestMapping("/index.do")
-	public String any(String userLoginName, String userPs, HttpServletRequest request,HttpSession session) {
+	public String jump(String userLoginName, String userPs, HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, String remember) {
 		Cookie[] coos = request.getCookies();
-		if (coos != null) {
-			for (int i = 0; i < coos.length; i++) {
-				if (coos[i].getName().equals("userLoginName")) {
-					userLoginName = coos[i].getValue();
-				}
-				if (coos[i].getName().equals("userPs")) {
-					userPs = coos[i].getValue();
-				}
-			}
-			UserBean ub = us.login(userLoginName, userPs);
-			if (ub != null) {
-				if (ub.getUserState() == 1 && (ub.getUserJobState() == 1 || ub.getUserJobState() == 2)) {
-					if (ub.getUserRole() == 1) {
-						session.setAttribute("ub", ub);
-						request.setAttribute("nameIsOk", "");
-						return "user/index";
-					} else if (ub.getUserRole() == 2) {
-						session.setAttribute("ub", ub);
-						request.setAttribute("nameIsOk", "");
-						return "stu/index";
-					} else {
-						return "page-login";
-					}
-				} else {
-					request.setAttribute("userState", "该用户已经离职或者被禁用，无法登录 ！");
-					return "page-login";
-				}
-			}else {
-				return "page-login";
-			}
-		} else {
+		if (coos == null) {
 			return "page-login";
+		} else {
+			return login(userLoginName, userPs, request, response, session, remember);
 		}
 	}
 
 	@RequestMapping("/login.do")
-	public String login(String userLoginName, String userPs, String remember, Model model, HttpServletRequest request,
-			HttpServletResponse response,HttpSession session) {
-		request.setAttribute("nameIsOk","");
-		UserBean ub = us.login(userLoginName, userPs);
-		if (ub != null) {
-			if (ub.getUserPs().equals(userPs)) {
-				if (ub.getUserState() == 1 && (ub.getUserJobState() == 1 || ub.getUserJobState() == 2)) {
-					try {
-						if (remember.equals("Checked")) {
-							Cookie userLoginNameCookie = new Cookie("userLoginName", userLoginName);
-							Cookie userPsCookie = new Cookie("userPs", userPs);
-							userLoginNameCookie.setMaxAge(2 * 60);
-							userPsCookie.setMaxAge(2 * 60);
-							response.addCookie(userLoginNameCookie);
-							response.addCookie(userPsCookie);
-						}
-					} catch (Exception e) {
-						// TODO: handle exception
-					}
-					if (ub.getUserRole() == 1) {
-						session.setAttribute("ub", ub);
-						request.setAttribute("nameIsOk", "");
-						return "user/index";
-					} else if (ub.getUserRole() == 2) {
-						session.setAttribute("ub", ub);
-						request.setAttribute("nameIsOk", "");
-						return "stu/index";
-					} else {
-						return "page-login";
-					}
-				} else {
-					model.addAttribute("userState", "该用户已经离职或者被禁用，无法登录 ！");
-					return "page-login";
-				}
-			} else {
-				model.addAttribute("psIsOk", "密码错误！");
-				request.setAttribute("userLoginName", userLoginName);
+	public String login(String userLoginName, String userPs, HttpServletRequest request, HttpServletResponse response,
+			HttpSession session, String remember) {
+		if (userLoginName == null || userLoginName.equals("")) {
+			Cookie[] coos = request.getCookies();
+			if (coos == null) {
 				return "page-login";
+			} else {
+				for (int i = 0; i < coos.length; i++) {
+					if (coos[i].getName().equals("userLoginName")) {
+						userLoginName = coos[i].getValue();
+					}
+					if (coos[i].getName().equals("userPs")) {
+						userPs = coos[i].getValue();
+					}
+				}
+				if (userLoginName == null || userLoginName.equals("")) {
+					return "page-login";
+				} else {
+					return login(userLoginName, userPs, request, response, session, remember);
+				}
 			}
-		} else if(userLoginName == null || userLoginName.equals("")){
-			request.setAttribute("nameIsOk", "用户名不能为空！");
-			return any(userLoginName, userPs, request,session);
 		} else {
-			request.setAttribute("nameIsOk", "用户名不存在！");
-			return any(userLoginName, userPs, request,session);
+			UserBean ub = us.login(userLoginName, userPs);
+			if (ub == null) {
+				request.setAttribute("nameIsOk", "用户名不存在！");
+				return "page-login";
+			} else {
+				if (!ub.getUserPs().equals(userPs)) {
+					request.setAttribute("psIsOk", "密码错误！");
+					request.setAttribute("userLoginName", userLoginName);
+					return "page-login";
+				} else {
+					if (ub.getUserState() == 2 || ub.getUserJobState() == 3) {
+						request.setAttribute("userState", "该用户已经离职或者被禁用，无法登录 ！");
+						return "page-login";
+					} else {
+						try {
+							if (remember.equals("Checked")) {
+								Cookie userLoginNameCookie = new Cookie("userLoginName", userLoginName);
+								Cookie userPsCookie = new Cookie("userPs", userPs);
+								userLoginNameCookie.setMaxAge(2 * 60);
+								userPsCookie.setMaxAge(2 * 60);
+								response.addCookie(userLoginNameCookie);
+								response.addCookie(userPsCookie);
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+						if (ub.getUserRole() == 1) {
+							session.setAttribute("ub", ub);
+							return "user/index";
+						} else if (ub.getUserRole() == 2) {
+							session.setAttribute("ub", ub);
+							return "stu/index";
+						} else {
+							request.setAttribute("userState", "身份信息错误，无法登录 ！");
+							return "page-login";
+						}
+					}
+				}
+			}
 		}
 	}
 }

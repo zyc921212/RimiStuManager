@@ -14,10 +14,23 @@
 		<servlet-name>Springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 
-	 	<init-param> <param-name>contextConfigLocation</param-name> <param-value>classpath*:Springmvc-servlet.xml</param-value> 
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath*:Springmvc-servlet.xml</param-value>
 		</init-param>
-		
 	</servlet>
+
+	<servlet>
+		<description>输出验证码</description>
+		<display-name>This is the display name of my J2EE component</display-name>
+		<servlet-name>PictureCheckCode</servlet-name>
+		<servlet-class>com.rimi.controller.PictureCheckCode</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>PictureCheckCode</servlet-name>
+		<url-pattern>/PictureCheckCode</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>Springmvc</servlet-name>
@@ -32,7 +45,7 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/jsp/404.jsp</location>

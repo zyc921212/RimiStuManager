@@ -1,30 +1,38 @@
-<!doctype html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+    <%   
+String path = request.getContextPath();   
+String basePath = request.getScheme()+"://" +request.getServerName()+":" +request.getServerPort()+path+"/" ;   
+%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 
 <head>
     <title>Dashboard | Klorofil - Free Bootstrap Dashboard Template</title>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <!-- VENDOR CSS -->
-    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/vendor/linearicons/style.css">
-    <link rel="stylesheet" href="../assets/vendor/chartist/css/chartist-custom.css">
+    <link rel="stylesheet" href="<%=basePath%>RXF/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<%=basePath%>RXF/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<%=basePath%>RXF/assets/vendor/linearicons/style.css">
+    <link rel="stylesheet" href="<%=basePath%>RXF/assets/vendor/chartist/css/chartist-custom.css">
     <!-- MAIN CSS -->
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="<%=basePath%>RXF/assets/css/main.css">
     <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-    <link rel="stylesheet" href="../assets/css/demo.css">
+    <link rel="stylesheet" href="<%=basePath%>RXF/assets/css/demo.css">
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
     <!-- ICONS -->
 
-    <script src="../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="../assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
-    <script src="../assets/vendor/chartist/js/chartist.min.js"></script>
-    <script src="../assets/scripts/klorofil-common.js"></script>
+    <script src="<%=basePath%>RXF/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="<%=basePath%>RXF/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="<%=basePath%>RXF/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="<%=basePath%>RXF/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+    <script src="<%=basePath%>RXF/assets/vendor/chartist/js/chartist.min.js"></script>
+    <script src="<%=basePath%>RXF/assets/scripts/klorofil-common.js"></script>
     <script type="text/javascript">
         var i = 1;
 
@@ -104,7 +112,7 @@
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../assets/img/user1.png" class="img-circle" alt="Avatar"> <span>王权富贵</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>王权富贵</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message(未实现)</span></a></li>
@@ -121,8 +129,7 @@
         <!-- LEFT SIDEBAR -->
         <div id="sidebar-nav" class="sidebar">
             <div class="sidebar-scroll">
-                <nav>
-                    <ul class="nav">
+               <ul class="nav">
                         <li>
                             <a href="#subPages1" data-toggle="collapse" class="collapsed">
                                 <i class="lnr lnr-home"></i> <span>学员信息</span>
@@ -130,8 +137,8 @@
                             </a>
                             <div id="subPages1" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="index.html" class="">学员跟进</a></li>
-                                    <li><a href="Student-add.html" class="">添加学员</a></li>
+                                    <li><a href="myindex.do" class="">学员跟进</a></li>
+                                    <li><a href="addStudent.do" class="">添加学员</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -157,7 +164,7 @@
             <!-- MAIN CONTENT -->
             <div class="main-content">
                 <div class="container-fluid">
-                    <h3 class="page-title">学员详情</h3>
+                    <h3 class="page-title">更改学员信息</h3>
                     <form class="form-horizontal" action="main" method="post">
                         <div class="row">
                             <div class="col-md-6">
@@ -231,7 +238,6 @@
                                 </div>
                                 <!-- END INPUTS -->
                                 <!-- INPUT SIZING -->
-
                                 <div class="panel">
                                     <div class="panel-heading">
                                         <h3 class="panel-title" style="float:left">报名记录</h3>
@@ -248,13 +254,13 @@
 									    </label>
                                         <br>
                                         <div class="form-group form-group-md">
-                                            <label class="col-md-2 control-label" for="formGroupInputLarge"> 学员报名时间</label>
+                                            <label class="col-md-2 control-label" for="formGroupInputLarge" style="position: relative;right: 5px;"> 学员报名时间:</label>
                                             <div class="col-md-10">
                                                 <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input" style="width:30%">
                                             </div>
                                             <br>
                                             <br>
-                                            <label class="col-md-2 control-label" for="formGroupInputLarge"> 学员付费方式</label>
+                                            <label class="col-md-2 control-label" for="formGroupInputLarge" style="position: relative;right: 5px;"> 学员付费方式:</label>
                                             <div class="col-md-10">
                                                 <select class="form-control" style="width:30%;float:left">
 										    <option value="cheese">学历</option>
@@ -362,14 +368,11 @@
 
 
                                     </div>
-
                                 </div>
-
-                                <!-- END LABELS -->
-                                <!-- PROGRESS BARS -->
                                 <div class="panel">
                                     <div class="panel-heading">
                                         <h3 class="panel-title" style="float:left">跟进记录</h3>
+                                        <a href="#" style="float:left;position: relative;top: 2px;left: 4px;" onclick="addlow()"><i class="fa fa-plus-square" ></i></a>
 
 
                                     </div>
@@ -381,6 +384,8 @@
                                             <input type="date" class="form-control input-sm" name="times" style="width:20%;float:left">
                                             <div style="float:left">&nbsp;&nbsp;&nbsp;</div>
                                             <input class="form-control input-sm" placeholder="请输入跟进记录" type="text" style="width:58%;float:left">
+                                            <div style="float:left">&nbsp;&nbsp;</div>
+                                            <a href="#" style="float:left;position: relative;top: 7px;" onclick="dele(this)" id="d-1"><span class="label label-danger" class="control-label">删除</span></a>
                                             <br>
                                             <br>
                                         </div>
@@ -393,8 +398,17 @@
                                     </div>
 
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-lg btn-block">返回
-                                            </button>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-primary btn-lg btn-block">修改</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" class="btn btn-danger btn-lg btn-block">返回</button>
+                                    </div>
+                                </div>
+                                <!-- END LABELS -->
+                                <!-- PROGRESS BARS -->
+
 
 
                             </div>

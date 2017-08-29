@@ -1,5 +1,7 @@
 package com.rimi.controller;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,9 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.rimi.bean.ApplyWayBean;
+import com.rimi.bean.ConsultCategoryBean;
+import com.rimi.bean.ConsultTimeBean;
+import com.rimi.bean.ConsultWayBean;
+import com.rimi.bean.EducationBean;
+import com.rimi.bean.SourcesBean;
 import com.rimi.bean.UserBean;
 import com.rimi.service.UserService;
-
 
 @Controller
 @SessionAttributes("ub")
@@ -20,19 +27,19 @@ public class UserController {
 
 	@Autowired
 	UserService us;
-	
+
 	Md5 md5 = new Md5();
-	
-	@RequestMapping("/index.do")
+
+	@RequestMapping("/newlogin.do")
 	public String jump(String userLoginName, String userPs, HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) {
-			return login(userLoginName, userPs, request, response, session);
+		return login(userLoginName, userPs, request, response, session);
 	}
 
 	@RequestMapping("/login.do")
 	public String login(String userLoginName, String userPs, HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) {
-		String code = (String)request.getSession().getAttribute("randCheckCode");
+		String code = (String) request.getSession().getAttribute("randCheckCode");
 		String checkCode = request.getParameter("checkCode");
 		Cookie[] coos = request.getCookies();
 		if (coos == null) {
@@ -41,7 +48,7 @@ public class UserController {
 			for (int i = 0; i < coos.length; i++) {
 				if (coos[i].getName().equals("userLoginName")) {
 					userLoginName = coos[i].getValue();
-					checkCode = (String)request.getSession().getAttribute("randCheckCode");
+					checkCode = (String) request.getSession().getAttribute("randCheckCode");
 				}
 				if (coos[i].getName().equals("userPs")) {
 					userPs = coos[i].getValue();
@@ -55,10 +62,10 @@ public class UserController {
 			request.setAttribute("message", "用户名不能为空 ！");
 			return "page-login";
 		} else {
-			if (checkCode == null || checkCode.equals("") ) {
+			if (checkCode == null || checkCode.equals("")) {
 				request.setAttribute("userLoginName", userLoginName);
 				return "page-login";
-			} else if(!code.equals(checkCode)) {
+			} else if (!code.equals(checkCode)) {
 				request.setAttribute("message", "验证码错误 ！");
 				request.setAttribute("userLoginName", userLoginName);
 				return "page-login";
@@ -96,6 +103,29 @@ public class UserController {
 								session.setAttribute("ub", ub);
 								return "user/index";
 							} else if (ub.getUserRole() == 2) {
+								// zyc
+								List<ConsultWayBean> cwb = us.getConsultWayByUserId();
+								System.out.println(cwb.get(1).getCsWayName() + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+								List<ApplyWayBean> awb = us.getApplyWayBean();
+								List<EducationBean> ebs = us.getEducationList();
+								List<UserBean> online = us.getOnlineTeachers();
+								List<UserBean> offline = us.getOfflineTeachers();
+								List<ConsultCategoryBean> ccbs = us.getConsultCategorys();
+								List<ConsultTimeBean> ctbs = us.getConsultTimes();
+								List<SourcesBean> sours = us.getSources();
+
+								session.setAttribute("cwb", cwb);
+								session.setAttribute("online", online);
+								session.setAttribute("offline", offline);
+								session.setAttribute("ebs", ebs);
+								session.setAttribute("ub", ub);
+								session.setAttribute("awb", awb);
+								session.setAttribute("csway", cwb);
+								session.setAttribute("ccbs", ccbs);
+								session.setAttribute("ctbs", ctbs);
+								session.setAttribute("sours", sours);
+
+								// zyc-end
 								session.setAttribute("ub", ub);
 								return "stu/index";
 							} else {

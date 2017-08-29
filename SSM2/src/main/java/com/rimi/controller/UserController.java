@@ -7,12 +7,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.rimi.bean.UserBean;
 import com.rimi.service.UserService;
+
 
 @Controller
 @SessionAttributes("ub")
@@ -20,7 +20,9 @@ public class UserController {
 
 	@Autowired
 	UserService us;
-
+	
+	Md5 md5 = new Md5();
+	
 	@RequestMapping("/index.do")
 	public String jump(String userLoginName, String userPs, HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) {

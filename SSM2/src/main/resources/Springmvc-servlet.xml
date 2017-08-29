@@ -62,7 +62,7 @@
 	<!--<bean id="ud"  class="com.rimi.dao.UserDaoImpl"></bean> -->
 	
 	<!-- service -->
-	<bean id="us" class="com.rimi.service.UserServiceImpl">
+	<bean id="us" class="com.rimi.serviceImpl.UserServiceImpl">
 	<property name="ud" ref="ud"></property>
 	</bean>
 

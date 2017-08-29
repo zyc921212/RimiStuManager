@@ -35,7 +35,24 @@ public class UserController {
 			HttpSession session) {
 		return login(userLoginName, userPs, request, response, session);
 	}
-
+	
+	@RequestMapping("/logout.do")
+	public String logout(HttpServletRequest request) {
+		Cookie[] coos = request.getCookies();
+		if (coos != null) {
+			for (int i = 0; i < coos.length; i++) {
+				if (coos[i].getName().equals("userLoginName")) {
+					coos[i].setMaxAge(0);
+				}
+				if (coos[i].getName().equals("userPs")) {
+					coos[i].setMaxAge(0);
+				}
+			}
+			return "page-login";
+		}
+		return "page-login";
+	}
+	
 	@RequestMapping("/login.do")
 	public String login(String userLoginName, String userPs, HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) {
@@ -85,17 +102,29 @@ public class UserController {
 							return "page-login";
 						} else {
 							try {
-								String remember = request.getParameter("remember");
-								if (remember.equals("Checked")) {
-									Cookie userLoginNameCookie;
-									Cookie userPsCookie;
+								String remember = null;
+								remember = request.getParameter("remember");
+								System.out.println(remember);
+								Cookie userLoginNameCookie;
+								Cookie userPsCookie;
+
+								if (remember == null || remember.equals(null)) {
 									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
 									userPsCookie = new Cookie("userPs", userPs);
-									userLoginNameCookie.setMaxAge(1 * 60);
-									userPsCookie.setMaxAge(1 * 60);
+									userLoginNameCookie.setMaxAge(3 * 60);
+									userPsCookie.setMaxAge(3 * 60);
+									response.addCookie(userLoginNameCookie);
+									response.addCookie(userPsCookie);
+									System.out.println("cookie30秒的保存到了");
+								} else if (remember.equals("Checked")) {
+									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
+									userPsCookie = new Cookie("userPs", userPs);
+									userLoginNameCookie.setMaxAge(60 * 60 * 24 * 7);
+									userPsCookie.setMaxAge(60 * 60 * 24 * 7);
 									response.addCookie(userLoginNameCookie);
 									response.addCookie(userPsCookie);
 								}
+
 							} catch (Exception e) {
 								// TODO: handle exception
 							}

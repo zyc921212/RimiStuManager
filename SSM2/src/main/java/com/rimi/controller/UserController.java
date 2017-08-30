@@ -137,8 +137,29 @@ public class UserController {
 								// TODO: handle exception
 							}
 							if (ub.getUserRole() == 1) {
+								List<ConsultWayBean> cwb = us.getConsultWayByUserId();
+								List<ApplyWayBean> awb = us.getApplyWayBean();
+								List<EducationBean> ebs = us.getEducationList();
+								List<UserBean> online = us.getOnlineTeachers();
+								List<UserBean> offline = us.getOfflineTeachers();
+								List<ConsultCategoryBean> ccbs = us.getConsultCategorys();
+								List<ConsultTimeBean> ctbs = us.getConsultTimes();
+								List<SourcesBean> sours = us.getSources();
+
+								session.setAttribute("cwb", cwb);
+								session.setAttribute("online", online);
+								session.setAttribute("offline", offline);
+								session.setAttribute("ebs", ebs);
 								session.setAttribute("ub", ub);
-								return "user/index";
+								session.setAttribute("awb", awb);
+								session.setAttribute("csway", cwb);
+								session.setAttribute("ccbs", ccbs);
+								session.setAttribute("ctbs", ctbs);
+								session.setAttribute("sours", sours);
+								
+								session.setAttribute("loginUb", ub);
+								session.setAttribute("ub", ub);
+								return "redirect:/queryUser.do?isok=clean";
 							} else if (ub.getUserRole() == 2) {
 								// zyc
 								List<ConsultWayBean> cwb = us.getConsultWayByUserId();

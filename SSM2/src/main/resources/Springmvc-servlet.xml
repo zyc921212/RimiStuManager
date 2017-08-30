@@ -48,32 +48,31 @@
 			<property name="sqlSessionFactory"  ref="sessionFactory"></property>
 		</bean>
 
+		<!-- UserManagerdao -->
+		<bean id="userMd" class="org.mybatis.spring.mapper.MapperFactoryBean">
+			<!-- 接口 -->
+			<property name="mapperInterface" value="com.rimi.dao.UserManagerDao"></property>
+			<property name="sqlSessionFactory"  ref="sessionFactory"></property>
+		</bean>
 		
+		<!-- service -->
+		<bean id="us" class="com.rimi.serviceImpl.UserServiceImpl">
+			<property name="ud" ref="ud"></property>
+		</bean>
 		
-		<!-- ud 相当于变量    class 是该类的类型 -->
-	<!-- <bean  id="ud"  class="com.rimi.bean.UserBean">
-		<property name="userName" value="zhangsans"></property>
-		<property name="userName" ><value>lisi</value></property>
-	</bean> -->
-	
+		<!-- userManagerservice -->
+		<bean id="userMs" class="com.rimi.serviceImpl.UserManagerServiceImpl">
+			<property name="userMd" ref="userMd"></property>
+		</bean>
 
-	
-	 <!-- dao -->
-	<!--<bean id="ud"  class="com.rimi.dao.UserDaoImpl"></bean> -->
-	
-	<!-- service -->
-	<bean id="us" class="com.rimi.serviceImpl.UserServiceImpl">
-	<property name="ud" ref="ud"></property>
-	</bean>
-
-	<!-- 非法拦截 -->
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<mvc:exclude-mapping path="/newlogin.do"/>
-			<mvc:exclude-mapping path="/login.do"/>
-			<bean class="com.rimi.interceptor.LoginInterceptor"></bean>
-		</mvc:interceptor>
-	</mvc:interceptors>
+		<!-- 非法拦截 -->
+		<mvc:interceptors>
+			<mvc:interceptor>
+				<mvc:mapping path="/**"/>
+				<mvc:exclude-mapping path="/newlogin.do"/>
+				<mvc:exclude-mapping path="/login.do"/>
+				<bean class="com.rimi.interceptor.LoginInterceptor"></bean>
+			</mvc:interceptor>
+		</mvc:interceptors>
 	
 </beans>

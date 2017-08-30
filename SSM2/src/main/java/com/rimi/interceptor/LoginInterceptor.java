@@ -15,8 +15,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		UserBean ub = (UserBean) request.getSession().getAttribute("ub");
+		UserBean ub1 = (UserBean) request.getSession().getAttribute("loginUb");
 		System.out.println("进入拦截器方法");
-		if (ub != null) {
+		if (ub != null|| ub!=null) {
 			System.out.println("拦截器放行");
 			return true;
 		}else {

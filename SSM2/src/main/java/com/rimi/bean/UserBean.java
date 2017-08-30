@@ -1,6 +1,8 @@
 package com.rimi.bean;
 
-public class UserBean {
+import java.io.Serializable;
+
+public class UserBean implements Serializable {
 	private int userId;				//用户ID
 	private String userLoginName;	//用户登录名（唯一）
 	private String userName;		//用户姓名
@@ -15,6 +17,12 @@ public class UserBean {
 	private String userTel;			//用户电话号码（座机）
 	private String userPhone;		//用户手机号码
 	private String userQq;			//用户QQ
+	private UserJobBean uj;			//职业类
+	private JobstateBean js;		//工作状态类
+	private UserRoleBean ur;		//用户角色类
+	private StateBean us;			//用户状态类
+	private SexBean sex;			//性别类
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -98,6 +106,37 @@ public class UserBean {
 	}
 	public void setUserQq(String userQq) {
 		this.userQq = userQq;
+	}
+	
+	public UserJobBean getUj() {
+		return uj;
+	}
+	public void setUj(UserJobBean uj) {
+		this.uj = uj;
+	}
+	public JobstateBean getJs() {
+		return js;
+	}
+	public void setJs(JobstateBean js) {
+		this.js = js;
+	}
+	public UserRoleBean getUr() {
+		return ur;
+	}
+	public void setUr(UserRoleBean ur) {
+		this.ur = ur;
+	}
+	public StateBean getUs() {
+		return us;
+	}
+	public void setUs(StateBean us) {
+		this.us = us;
+	}
+	public SexBean getSex() {
+		return sex;
+	}
+	public void setSex(SexBean sex) {
+		this.sex = sex;
 	}
 	public UserBean(int userId, String userLoginName, String userName, String userPs, int userSex, int userAge,
 			int userState, int userRole, int userJob, int userJobState, String userEmail, String userTel,

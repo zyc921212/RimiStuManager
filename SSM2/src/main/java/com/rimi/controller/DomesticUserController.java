@@ -36,6 +36,7 @@ public class DomesticUserController {
 	@RequestMapping("index.do")
 	public String toIndex(Model model, String nowpage, HttpSession session) {
 		UserBean ub = (UserBean) session.getAttribute("ub");
+		System.out.println("woshiindexde " + ub);
 		int count = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), null, null).size();
 		// 得到每页的条数
 		int pageSize = 3;

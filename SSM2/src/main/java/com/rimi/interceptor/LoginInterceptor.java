@@ -16,7 +16,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 			throws Exception {
 		UserBean ub = (UserBean) request.getSession().getAttribute("ub");
 		System.out.println("进入拦截器方法");
-//		request.getServletPath();
 		if (ub != null) {
 			System.out.println("拦截器放行");
 			return true;

@@ -37,20 +37,27 @@ public class UserController {
 	}
 	
 	@RequestMapping("/logout.do")
-	public String logout(HttpServletRequest request) {
+	public String logout(HttpServletRequest request,HttpServletResponse response) {
 		Cookie[] coos = request.getCookies();
+		HttpSession session = request.getSession();
+		session.invalidate();
+		System.out.println(request.getSession().getAttribute("ub"));
 		if (coos != null) {
 			for (int i = 0; i < coos.length; i++) {
 				if (coos[i].getName().equals("userLoginName")) {
 					coos[i].setMaxAge(0);
+					response.addCookie(coos[i]);
+					System.out.println(coos[i].getName());
 				}
 				if (coos[i].getName().equals("userPs")) {
 					coos[i].setMaxAge(0);
+					response.addCookie(coos[i]);
+					System.out.println(coos[i].getName());
 				}
 			}
-			return "page-login";
+			return "redirect:/newlogin.do";
 		}
-		return "page-login";
+		return "redirect:/newlogin.do";
 	}
 	
 	@RequestMapping("/login.do")
@@ -109,7 +116,7 @@ public class UserController {
 								Cookie userPsCookie;
 
 								if (remember == null || remember.equals(null)) {
-									// 不论是否勾选记住密码，默认记住密码30分钟
+									// 不论是否勾选记住密码，默认记住密码30分钟(已注释)
 //									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
 //									userPsCookie = new Cookie("userPs", userPs);
 //									userLoginNameCookie.setMaxAge(30 * 60);

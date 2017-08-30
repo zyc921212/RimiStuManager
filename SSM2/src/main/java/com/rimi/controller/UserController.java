@@ -109,13 +109,14 @@ public class UserController {
 								Cookie userPsCookie;
 
 								if (remember == null || remember.equals(null)) {
-									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
-									userPsCookie = new Cookie("userPs", userPs);
-									userLoginNameCookie.setMaxAge(3 * 60);
-									userPsCookie.setMaxAge(3 * 60);
-									response.addCookie(userLoginNameCookie);
-									response.addCookie(userPsCookie);
-									System.out.println("cookie30秒的保存到了");
+									// 不论是否勾选记住密码，默认记住密码30分钟
+//									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
+//									userPsCookie = new Cookie("userPs", userPs);
+//									userLoginNameCookie.setMaxAge(30 * 60);
+//									userPsCookie.setMaxAge(30 * 60);
+//									response.addCookie(userLoginNameCookie);
+//									response.addCookie(userPsCookie);
+//									System.out.println("cookie30分钟的保存到了");
 								} else if (remember.equals("Checked")) {
 									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
 									userPsCookie = new Cookie("userPs", userPs);

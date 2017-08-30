@@ -21,9 +21,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 			return true;
 		}else {
 			System.out.println("拦截器拦截");
-			response.sendRedirect("index.do");
+			response.sendRedirect("newlogin.do");
+			return false;
 		}
-		return false;
 	}
 	
 	// 这个是在 controller 响应之后调用的，这个还没有到页面，在这里面你也可以对对应的 modelandview 进行操作

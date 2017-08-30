@@ -35,7 +35,31 @@ public class UserController {
 			HttpSession session) {
 		return login(userLoginName, userPs, request, response, session);
 	}
-
+	
+	@RequestMapping("/logout.do")
+	public String logout(HttpServletRequest request,HttpServletResponse response) {
+		Cookie[] coos = request.getCookies();
+		HttpSession session = request.getSession();
+		session.invalidate();
+		System.out.println(request.getSession().getAttribute("ub"));
+		if (coos != null) {
+			for (int i = 0; i < coos.length; i++) {
+				if (coos[i].getName().equals("userLoginName")) {
+					coos[i].setMaxAge(0);
+					response.addCookie(coos[i]);
+					System.out.println(coos[i].getName());
+				}
+				if (coos[i].getName().equals("userPs")) {
+					coos[i].setMaxAge(0);
+					response.addCookie(coos[i]);
+					System.out.println(coos[i].getName());
+				}
+			}
+			return "redirect:/newlogin.do";
+		}
+		return "redirect:/newlogin.do";
+	}
+	
 	@RequestMapping("/login.do")
 	public String login(String userLoginName, String userPs, HttpServletRequest request, HttpServletResponse response,
 			HttpSession session) {
@@ -85,17 +109,30 @@ public class UserController {
 							return "page-login";
 						} else {
 							try {
-								String remember = request.getParameter("remember");
-								if (remember.equals("Checked")) {
-									Cookie userLoginNameCookie;
-									Cookie userPsCookie;
+								String remember = null;
+								remember = request.getParameter("remember");
+								System.out.println(remember);
+								Cookie userLoginNameCookie;
+								Cookie userPsCookie;
+
+								if (remember == null || remember.equals(null)) {
+									// 不论是否勾选记住密码，默认记住密码30分钟(已注释)
+//									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
+//									userPsCookie = new Cookie("userPs", userPs);
+//									userLoginNameCookie.setMaxAge(30 * 60);
+//									userPsCookie.setMaxAge(30 * 60);
+//									response.addCookie(userLoginNameCookie);
+//									response.addCookie(userPsCookie);
+//									System.out.println("cookie30分钟的保存到了");
+								} else if (remember.equals("Checked")) {
 									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
 									userPsCookie = new Cookie("userPs", userPs);
-									userLoginNameCookie.setMaxAge(1 * 60);
-									userPsCookie.setMaxAge(1 * 60);
+									userLoginNameCookie.setMaxAge(60 * 60 * 24 * 7);
+									userPsCookie.setMaxAge(60 * 60 * 24 * 7);
 									response.addCookie(userLoginNameCookie);
 									response.addCookie(userPsCookie);
 								}
+
 							} catch (Exception e) {
 								// TODO: handle exception
 							}

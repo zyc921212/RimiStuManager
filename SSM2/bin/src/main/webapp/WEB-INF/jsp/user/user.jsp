@@ -19,11 +19,22 @@
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="../assets/img/favicon.png">
+    
+    <script type="text/javascript">
+		function logout(){
+			 var bool = window.confirm("确定注销登录吗");
+			 if(bool){//确定
+				 window.location="logout.do";
+			 }else{//取消
+			 	
+			 }
+		}
+	</script>
+    
 </head>
 
 <body>
 
-    >
 
     <!-- WRAPPER -->
     <div id="wrapper">
@@ -39,12 +50,12 @@
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../assets/img/user1.png" class="img-circle" alt="Avatar"> <span>王权富贵</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../assets/img/user1.png" class="img-circle" alt="Avatar"> <span>çæå¯è´µ</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="user.html"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message(未实现)</span></a></li>
-                                <li><a href=""><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-exit"></i> <span>登出</span></a></li>
+                                <li><a href="user.html"><i class="lnr lnr-user"></i> <span>æçä¿¡æ¯</span></a></li>
+                                <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message(æªå®ç°)</span></a></li>
+                                <li><a href=""><i class="lnr lnr-cog"></i> <span>ä¿®æ¹å¯ç </span></a></li>
+                                <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>ç»åº</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -65,7 +76,7 @@
                                     <div class="overlay"></div>
                                     <div class="profile-main">
                                         <img src="../assets/img/user1.png" class="img-circle" alt="Avatar">
-                                        <h3 class="name">王权富贵</h3>
+                                        <h3 class="name">çæå¯è´µ</h3>
                                         <span class="online-status status-available">Available</span>
                                     </div>
                                     <div class="profile-stat">
@@ -77,7 +88,7 @@
                                                 phone <span>10000</span>
                                             </div>
                                             <div class="col-md-4 stat-item">
-                                                角色 <span>线上咨询师</span>
+                                                è§è² <span>çº¿ä¸å¨è¯¢å¸</span>
                                             </div>
                                         </div>
                                     </div>
@@ -86,21 +97,21 @@
                                 <!-- PROFILE DETAIL -->
                                 <div class="profile-detail">
                                     <div class="profile-info">
-                                        <h4 class="heading">基本信息</h4>
+                                        <h4 class="heading">åºæ¬ä¿¡æ¯</h4>
 
                                         <ul class="list-unstyled list-justify">
-                                            <li>登录名 <span>zhangsan</span></li>
-                                            <li>姓名 <span>王权富贵</span></li>
+                                            <li>ç»å½å <span>zhangsan</span></li>
+                                            <li>å§å <span>çæå¯è´µ</span></li>
 
-                                            <li>性别 <span>男</span></li>
-                                            <li>年龄 <span>20</span></li>
-                                            <li>角色 <span>线上咨询师</span></li>
-                                            <li>职位 <span>销售</span></li>
-                                            <li>工作状态 <span>在职</span></li>
-                                            <li>邮箱 <span>qq.com</span></li>
+                                            <li>æ§å« <span>ç·</span></li>
+                                            <li>å¹´é¾ <span>20</span></li>
+                                            <li>è§è² <span>çº¿ä¸å¨è¯¢å¸</span></li>
+                                            <li>èä½ <span>éå®</span></li>
+                                            <li>å·¥ä½ç¶æ <span>å¨è</span></li>
+                                            <li>é®ç®± <span>qq.com</span></li>
                                             <li>QQ <span>1234</span></li>
-                                            <li>手机 <span>10000</span></li>
-                                            <li>电话<span>110</span></li>
+                                            <li>ææº <span>10000</span></li>
+                                            <li>çµè¯<span>110</span></li>
 
                                         </ul>
                                     </div>
@@ -111,7 +122,7 @@
                             <!-- END LEFT COLUMN -->
                             <!-- RIGHT COLUMN -->
                             <div class="profile-right">
-                                <h4 class="heading">你的目标</h4>
+                                <h4 class="heading">ä½ çç®æ </h4>
                                 <!-- AWARDS -->
                                 <div class="awards">
                                     <div class="row">
@@ -120,7 +131,7 @@
                                                 <div class="hexagon">
                                                     <span class="lnr lnr-sun award-icon"></span>
                                                 </div>
-                                                <span>绝妙的点子</span>
+                                                <span>ç»å¦çç¹å­</span>
                                             </div>
                                         </div>
                                         <div class="col-md-3 col-sm-6">
@@ -128,7 +139,7 @@
                                                 <div class="hexagon">
                                                     <span class="lnr lnr-clock award-icon"></span>
                                                 </div>
-                                                <span>珍惜时间</span>
+                                                <span>çææ¶é´</span>
                                             </div>
                                         </div>
                                         <div class="col-md-3 col-sm-6">
@@ -136,7 +147,7 @@
                                                 <div class="hexagon">
                                                     <span class="lnr lnr-magic-wand award-icon"></span>
                                                 </div>
-                                                <span>无惧挑战</span>
+                                                <span>æ æ§ææ</span>
                                             </div>
                                         </div>
                                         <div class="col-md-3 col-sm-6">
@@ -144,47 +155,47 @@
                                                 <div class="hexagon">
                                                     <span class="lnr lnr-heart award-icon"></span>
                                                 </div>
-                                                <span>爱你所爱</span>
+                                                <span>ç±ä½ æç±</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- END AWARDS -->
                                 <!-- TABBED CONTENT -->
-                                <a role="tab" data-toggle="tab">更改你的用户信息</a>
+                                <a role="tab" data-toggle="tab">æ´æ¹ä½ çç¨æ·ä¿¡æ¯</a>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-bottom-left1">
                                         <table class="table">
                                             <tr>
                                                 <td>
-                                                    <input type="text" class="form-control" placeholder="登录名">
+                                                    <input type="text" class="form-control" placeholder="ç»å½å">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" placeholder="姓名">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <input type="text" class="form-control" placeholder="性别">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control" placeholder="年龄">
+                                                    <input type="text" class="form-control" placeholder="å§å">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <input type="text" class="form-control" placeholder="角色">
+                                                    <input type="text" class="form-control" placeholder="æ§å«">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" placeholder="职位">
+                                                    <input type="text" class="form-control" placeholder="å¹´é¾">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <input type="text" class="form-control" placeholder="工作状态">
+                                                    <input type="text" class="form-control" placeholder="è§è²">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" placeholder="邮箱">
+                                                    <input type="text" class="form-control" placeholder="èä½">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <input type="text" class="form-control" placeholder="å·¥ä½ç¶æ">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" placeholder="é®ç®±">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -192,13 +203,13 @@
                                                     <input type="text" class="form-control" placeholder="QQ">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" placeholder="手机">
+                                                    <input type="text" class="form-control" placeholder="ææº">
                                                 </td>
                                             </tr>
                                             <tr>
 
                                                 <td>
-                                                    <input type="text" class="form-control" placeholder="电话">
+                                                    <input type="text" class="form-control" placeholder="çµè¯">
                                                 </td>
                                             </tr>
 
@@ -226,37 +237,37 @@
                     <ul class="nav">
                         <li>
                             <a href="#subPages1" data-toggle="collapse" class="collapsed">
-                                <i class="lnr lnr-home"></i> <span>学员信息</span>
+                                <i class="lnr lnr-home"></i> <span>å­¦åä¿¡æ¯</span>
                                 <i class="icon-submenu lnr lnr-chevron-left"></i>
                             </a>
                             <div id="subPages1" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="../stu/index.html" class="">学员跟进</a></li>
-                                    <li><a href="../stu/Student-add.html" class="">添加学员</a></li>
+                                    <li><a href="../stu/index.html" class="">å­¦åè·è¿</a></li>
+                                    <li><a href="../stu/Student-add.html" class="">æ·»å å­¦å</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li>
                             <a href="#subPages" data-toggle="collapse" class="collapsed">
-                                <i class="lnr lnr-user"></i> <span>用户管理</span>
+                                <i class="lnr lnr-user"></i> <span>ç¨æ·ç®¡ç</span>
                                 <i class="icon-submenu lnr lnr-chevron-left"></i>
                             </a>
                             <div id="subPages" class="collapse ">
                                 <ul class="nav">
-                                    <li><a href="index.html" class="">用户查询</a></li>
-                                    <li><a href="#" class="">添加用户</a></li>
+                                    <li><a href="index.html" class="">ç¨æ·æ¥è¯¢</a></li>
+                                    <li><a href="#" class="">æ·»å ç¨æ·</a></li>
                                 </ul>
                             </div>
                         </li>
                         <li>
                             <a href="#subPages2" data-toggle="collapse" class="collapsed">
-                                <i class="glyphicon glyphicon-user"></i> <span>个人信息</span>
+                                <i class="glyphicon glyphicon-user"></i> <span>ä¸ªäººä¿¡æ¯</span>
                                 <i class="icon-submenu lnr  lnr-chevron-left"></i>
                             </a>
                             <div id="subPages2" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="user.html" class="">我的资料</a></li>
-                                    <li><a href="Student-add.html" class="">更改密码</a></li>
+                                    <li><a href="user.html" class="">æçèµæ</a></li>
+                                    <li><a href="Student-add.html" class="">æ´æ¹å¯ç </a></li>
                                 </ul>
                             </div>
                         </li>
@@ -273,7 +284,7 @@
         <div class="clearfix"></div>
         <footer>
             <div class="container-fluid">
-                <p class="copyright">&copy; 2017 <a href="#" target="_blank">Theme I Need</a>. All Rights Reserved. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+                <p class="copyright">&copy; 2017 <a href="#" target="_blank">Theme I Need</a>. All Rights Reserved. More Templates <a href="http://www.cssmoban.com/" target="_blank" title="æ¨¡æ¿ä¹å®¶">æ¨¡æ¿ä¹å®¶</a> - Collect from <a href="http://www.cssmoban.com/" title="ç½é¡µæ¨¡æ¿" target="_blank">ç½é¡µæ¨¡æ¿</a></p>
             </div>
         </footer>
     </div>

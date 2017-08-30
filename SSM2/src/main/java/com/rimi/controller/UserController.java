@@ -164,7 +164,7 @@ public class UserController {
 
 								// zyc-end
 								session.setAttribute("ub", ub);
-								return "stu/index";
+								return "redirect:index.do";
 							} else {
 								request.setAttribute("message", "身份信息错误，无法登录 ！");
 								return "page-login";

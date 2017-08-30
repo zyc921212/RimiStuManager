@@ -19,6 +19,7 @@
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="../assets/img/favicon.png">
+    
     <script type="text/javascript">
 		function logout(){
 			 var bool = window.confirm("确定注销登录吗");
@@ -29,11 +30,11 @@
 			 }
 		}
 	</script>
+    
 </head>
 
 <body>
 
-    >
 
     <!-- WRAPPER -->
     <div id="wrapper">

@@ -12,8 +12,8 @@ public class StudentInfoBean {
     private Date consultDate;//咨询日期
     private String onlineId;//线上咨询师ID
     private String offlineId;//线下咨询师ID
-    private int  stuTel;//联系电话
-    private int stuQq;//QQ
+    private String  stuTel;//联系电话
+    private String stuQq;//QQ
     private String stuWechat;//微信
     private int stuAge;//年龄
     private String stuSex;//性别
@@ -55,16 +55,17 @@ public class StudentInfoBean {
 	public void setOfflineId(String offlineId) {
 		this.offlineId = offlineId;
 	}
-	public int getStuTel() {
+	
+	public String getStuTel() {
 		return stuTel;
 	}
-	public void setStuTel(int stuTel) {
+	public void setStuTel(String stuTel) {
 		this.stuTel = stuTel;
 	}
-	public int getStuQq() {
+	public String getStuQq() {
 		return stuQq;
 	}
-	public void setStuQq(int stuQq) {
+	public void setStuQq(String stuQq) {
 		this.stuQq = stuQq;
 	}
 	public String getStuWechat() {
@@ -110,10 +111,11 @@ public class StudentInfoBean {
 	}
 	public void setRecentRecordTime(Date recentRecordTime) {
 		this.recentRecordTime = recentRecordTime;
+	
 	}
 	public StudentInfoBean(String stuId, String stuName, Date consultDate, String onlineId, String offlineId,
-			int stuTel, int stuQq, String stuWechat, int stuAge, String stuSex, String consultWay, int consultPriority,
-			int isApply, Date recentRecordTime) {
+			String stuTel, String stuQq, String stuWechat, int stuAge, String stuSex, String consultWay,
+			int consultPriority, int isApply, Date recentRecordTime) {
 		super();
 		this.stuId = stuId;
 		this.stuName = stuName;
@@ -134,10 +136,8 @@ public class StudentInfoBean {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
     
 
 
-  
-
 }
+	

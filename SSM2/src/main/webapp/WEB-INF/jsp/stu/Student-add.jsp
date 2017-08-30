@@ -120,6 +120,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
             }
         
     </script>
+    
     <script type="text/javascript">
 		function logout(){
 			 var bool = window.confirm("确定注销登录吗");
@@ -130,6 +131,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 			 }
 		}
 	</script>
+    
 </head>
 
 <body>
@@ -138,7 +140,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
         <!-- NAVBAR -->
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="brand">
-                <a href="#"><span style="font-size: 35px;padding-top:20px;">Rimi</span></a>
+                <a href="index.do"><span style="font-size: 35px;padding-top:20px;">Rimi</span></a>
             </div>
             <div class="container-fluid">
                 <div class="navbar-btn">
@@ -147,7 +149,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>王权富贵</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>${ub.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message(未实现)</span></a></li>
@@ -396,9 +398,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                 <!-- END LABELS -->
                                 <!-- PROGRESS BARS -->
 
-
-
                             </div>
+                            
                         </div>
                     </form>
                 </div>

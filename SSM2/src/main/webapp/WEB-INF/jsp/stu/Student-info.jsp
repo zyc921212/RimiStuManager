@@ -101,10 +101,10 @@
 			</div>
 			<div id="navbar-menu">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
+					<li class="dropdown"><a href="index.do" class="dropdown-toggle"
 						data-toggle="dropdown"><img
 							src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle"
-							alt="Avatar"> <span>王权富贵</span> <i
+							alt="Avatar"> <span>${ub.userName}</span> <i
 							class="icon-submenu lnr lnr-chevron-down"></i></a>
 						<ul class="dropdown-menu">
 							<li><a href="#"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
@@ -365,7 +365,7 @@
 									</div>
 									<br>
 									<div class="panel-body" id="papa">
-									<c:forEach var="nb" items="${nbs}" varStatus="status"> 
+									 <c:forEach var="nb" items="${nbs}" varStatus="status"> 
 										<div id="low-1-${status.index+1}">
 											<div style="float: left" class="control-label">${status.index+1}.</div>
 											<div style="float: left" class="control-label">跟进时间:&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -376,9 +376,9 @@
 												type="text" style="width: 58%; float: left" value="${nb.newrecordExplain}" disabled="disabled"> <br>
 											<br>
 										</div>
-									</c:forEach>
-
-
+									</c:forEach> 
+									
+		
 
 
 

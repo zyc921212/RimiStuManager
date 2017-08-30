@@ -101,13 +101,50 @@
 	<result property="sourcesName" column="sources_name"/>
 	</resultMap>
 	
+	<resultMap type="ConsultBean" id="cb">
+	<id property="consultId" column="consult_id"/>
+	<result	property="stuId" column="stu_id"/>
+	<result property="offlineId" column="offline_id"/>
+	<result property="onlineId" column="online_id"/>
+	<result property="consultCategory" column="consult_category"/>
+	<result property="consultWay" column="consult_way"/>
+	<result property="consultDate" column="consult_date"/>
+	<result property="consultTime" column="consult_time"/>
+	<result property="visitTime" column="visit_time"/>
+	<result property="sourcesId" column="sources_id"/>
+	<result property="consultFocus" column="consult_focus"/>
+	<result property="consultKeywords" column="consult_keywords"/>
+	<result property="consultPriority" column="consult_priority"/>
+	<result property="consultRemark" column="consult_remark"/>
+	<result property="createTime" column="create_time"/>
+	</resultMap>
+	
 	<insert id="addStuBean" parameterType="StuBean">
         insert into stu_tb 
-        values (0,#{stuName},#{stuSex},#{stuAge},#{stuTel},#{stuTel},#{stuWechat},#{stuJobstate},#{stuRegion},#{stuEducation},#{stuSchool},#{stuMajor})
+        values (0,#{stuName},#{stuSex},#{stuAge},#{stuTel},#{stuQq},#{stuWechat},#{stuJobstate},#{stuRegion},#{stuEducation},#{stuSchool},#{stuMajor})
         <selectKey resultType="Integer" order="AFTER" keyProperty="stuId">
             SELECT LAST_INSERT_ID() AS stuId
         </selectKey>
     </insert>
+    <update id="editStuBean" parameterType="StuBean">
+    update stu_tb 
+    <set>
+    stu_name=#{stuName},
+    stu_sex=#{stuSex},
+    stu_age=#{stuAge},
+    stu_tel=#{stuTel},
+    stu_wechat=#{stuWechat},
+    stu_Qq=#{stuQq},
+    stu_jobstate=#{stuJobstate},
+    stu_region=#{stuRegion},
+    stu_education=#{stuEducation},
+    stu_school=#{stuSchool},
+    stu_major=#{stuMajor}
+    </set>
+    <where>
+    stu_id=#{stuId}
+    </where>
+    </update>
 	
 	<insert id="addConsultBean" parameterType="java.util.Map">  
 	insert into consult_tb values(0,#{stuid},#{offline},#{online},#{cc},#{cw},
@@ -125,8 +162,26 @@
 	</otherwise>
 	</choose>
 	,#{sour},null,null,#{cp},#{remark},default)
-	</insert>  
-	
+	</insert> 
+	 
+	<update id="editConsultBean" parameterType="java.util.Map">
+	update consult_tb 
+	<set>
+	offline_id=#{offline},
+	online_id=#{online},
+	consult_category=#{cc},
+	consult_way=#{cw},
+	consult_date=#{cd},
+	consult_time=#{ct},
+	visit_time=#{vt},
+	sources_id=#{sour},
+	consult_priority=#{cp},
+	consult_remark=#{remark},
+	</set>
+	<where>
+	stu_id=#{stuid}
+	</where>
+	</update>
 		
 	<insert id="addNRBean" parameterType="java.util.Map">  
 	insert into newrecord_tb values(0,#{stuid},#{nt},#{ne})
@@ -136,11 +191,35 @@
 	insert into apply_tb values(0,#{stuid},2,null,null)
 	</insert>  
 	
+	<update id="editApplyBean" parameterType="java.util.Map">
+	update apply_tb
+	<set>
+	is_apply=#{ia},
+	<choose>
+	<when test="applyTime!=null and applyTime.length()>0">apply_time=#{at},</when>
+	<otherwise>
+	apply_time=default,
+	</otherwise>
+	</choose>
+	<choose>
+	<when test="applyWay!=null and applyWay.length()>0">apply_way=#{aw},</when>
+	<otherwise>
+	apply_way=null,
+	</otherwise>
+	</choose>
+	</set>
+	where stu_id=#{stuid}
+	</update>
+	
+	<delete id="deleteAllNR" parameterType="int">
+		delete from newrecord_tb where stu_id=#{stuid}
+	</delete>
+	
 	<resultMap type="NewrecordBean" id="nb">
 	<id property="newrecordId" column="newrecord_id"/>
 	<result property="stuId" column="stu_id"/>
 	<result property="newrecordTime" column="newrecord_time"/>
-	<result property="newrecordExplain" column="newrecordExplain"/>
+	<result property="newrecordExplain" column="newrecord_explain"/>
 	</resultMap>
 	
 	<select id="getNewRecord" resultMap="nb" parameterType="int"> 
@@ -258,6 +337,32 @@
 		select  *  from  apply_tb  where stu_id=#{stuid}
  	</select>
  	
+ 	<select id="getConsultBean" resultMap="cb" parameterType="int">
+ 		select * from consult_tb where stu_id=#{stuid}
+ 	</select>
+ 	
+ 	<select id="getInfoByUserId" parameterType="int" resultMap="sib">
+ 		SELECT distinct s.stu_id,
+		s.stu_name,
+		c.consult_date,
+		u1.user_name as name,
+		u2.user_name,s.stu_tel,s.stu_qq,
+		s.stu_wechat,
+		s.stu_age,se.sex_name,
+		cwt.cs_way_name,c.consult_priority,
+		a.is_apply,r.newrecord_time from stu_tb s 
+		INNER JOIN consult_tb c on s.stu_id=c.stu_id 
+		INNER JOIN consult_way_tb cwt on cwt.cs_way_id=c.consult_way
+		INNER JOIN user_tb u1 on c.online_id=u1.user_id 
+		INNER JOIN user_tb u2 on c.offline_id=u2.user_id 
+		INNER JOIN apply_tb a on s.stu_id=a.stu_id
+		INNER JOIN newrecord_tb r on s.stu_id=r.stu_id
+		INNER JOIN sex_tb se on s.stu_sex=se.sex_id
+		<where>
+			 r.newrecord_time=(select max(newrecord_time)  from  newrecord_tb WHERE stu_id=s.stu_id) and s.stu_id=#{stuid}
+		</where>
+ 	</select>
+ 	
  	<select id="getInfoListByUserId" parameterType="java.util.Map" resultMap="sib" >
 		SELECT distinct s.stu_id,
 		s.stu_name,
@@ -306,8 +411,8 @@
 	<![CDATA[ and r.newrecord_time <= #{Date2} ]]>
 	</if> 
 	</if>
-	
-	<if test="num!=null and size!=null">  order by s.stu_id limit #{num},#{size}</if>
+	 order by s.stu_id
+	<if test="num!=null and size!=null">  limit #{num},#{size}</if>
 	</where>
 	
   	</select> 

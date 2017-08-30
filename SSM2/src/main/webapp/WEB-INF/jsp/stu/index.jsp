@@ -67,6 +67,40 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                 alert("请选中要操作的项");
             }
         }
+        $(function () {
+ 			$('#excelPro').click(function(){
+ 				var alls=document.getElementsByName("check");
+ 				var ids=new Array();
+ 				var str="";
+ 				for(var i=0;i<alls.length;i++){
+ 					var c=alls[i];
+ 					if(c.checked){
+ 						ids.push(c.value);
+ 						if(str==""){
+ 							 str=c.value;
+ 						}else{
+ 							str=str+","+c.value;
+ 						}	
+ 					}			
+ 				}
+ 				if(ids.length>0){
+ 					if(confirm("确认操作?")){
+ 	 					window.location.href='excel.do?Str='+str;
+ 					}
+ 				}else{
+ 					alert("请选中要操作的项");
+ 				}
+ 			 });
+ 	    });
+        $(function () {
+ 			$('#excelProAll').click(function(){
+ 				
+ 					if(confirm("确认操作?")){
+ 	 					window.location.href='excel.do?Str=all';
+ 					}
+ 				
+ 			 });
+ 	    });
         
         
         $(function() {
@@ -143,7 +177,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
         <!-- NAVBAR -->
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="brand">
-                <a href="#"><span style="font-size: 35px;padding-top:20px;position:relative;top:8px;">Rimi</span></a>
+                <a href="index.do"><span style="font-size: 35px;padding-top:20px;position:relative;top:8px;">Rimi</span></a>
             </div>
             <div class="container-fluid">
                 <div class="navbar-btn">
@@ -321,7 +355,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                         <c:forEach   var="stu"  items="${stus}">
                             <tr>
                                 <td style="vertical-align:middle;">
-                                    <input type="checkbox" name="check" value="1">
+                                    <input type="checkbox" name="check" value="${stu.stuId}">
                                 </td>
                                 <td><%=i %> </td>
                                 <td>${stu.stuName}</td>
@@ -379,8 +413,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                         </script>
                                     </div>
                                     <div class=" col-md-6 text-right">
-                                        <button type="submit" class="btn btn-primary" type="button">导出选中</button>
-                                        <button type="submit" class="btn btn-primary" type="button">导出所有</button>
+                                        <button type="submit" class="btn btn-primary" id="excelPro">导出选中</button>
+                                        <button type="submit" class="btn btn-primary" id="excelProAll">导出所有</button>
                                     </div>
                                 </td>
                             </tr>

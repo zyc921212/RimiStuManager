@@ -298,7 +298,77 @@ public class UserServiceImpl implements UserService {
 
 	
 
-	
+	//通过id查询咨询表
+		public ConsultBean getConsultBean(int stuid) {
+			
+			return ud.getConsultBean(stuid);
+		}
+	//更改学生信息
+		public void editStudent(StuBean sb,ConsultBean cb,ApplyBean ab,List nrt,List nre) {
+			if(sb.getStuEducation()==0) {
+				sb.setStuEducation(null);
+			}
+			Map m1=new HashMap<>();
+		    if(cb.getOnlineId()!=0) {
+		    m1.put("online", cb.getOnlineId());
+		    }
+		    if(cb.getOfflineId()!=0) {
+		    m1.put("offline",cb.getOfflineId());
+		    }
+		    if(cb.getConsultCategory()!=0) {
+		    m1.put("cc", cb.getConsultCategory());
+		    }
+		    if(cb.getConsultWay()!=0) {
+		    m1.put("cw", cb.getConsultWay());
+		    }
+		  
+			    m1.put("cd", cb.getConsultDate());
+
+		   
+		    
+		    if(cb.getConsultTime()!=0) {
+		    	m1.put("ct",cb.getConsultTime());
+		    }
+		    if(cb.getSourcesId()!=0) {
+		    	m1.put("sour", cb.getSourcesId());
+		    }
+		    if(cb.getConsultPriority()!=0){
+		    	m1.put("cp",cb.getConsultPriority());
+		    }
+			    m1.put("vt", cb.getVisitTime());
+			    m1.put("remark",cb.getConsultRemark());
+			    m1.put("stuid",sb.getStuId());
+			   
+			if("0".equals(ab.getApplyWay())) {
+				m1.put("aw",ab.getApplyWay());
+			}   
+			if(ab.getIsApply()!=0) {
+				m1.put("ia",ab.getIsApply());
+			}
+			m1.put("at", ab.getApplyTime());
+			ud.editStuBean(sb);
+			ud.editConsultBean(m1);
+			ud.editApplyBean(m1);
+			if(nrt!=null&&nre!=null) {
+				ud.deleteAllNR(sb.getStuId());
+				for (int i = 1; i < nrt.size(); i++) {
+					Map m2=new HashMap<>();
+					m2.put("nt", nrt.get(i));
+					m2.put("ne", nre.get(i));
+					m2.put("stuid", sb.getStuId());
+					ud.addNRBean(m2);
+				}
+			}
+			
+			
+		}
+
+		@Override
+		public StudentInfoBean getInfoByUserId(int stuid) {
+			// TODO Auto-generated method stub
+			return ud.getInfoByUserId(stuid);
+		}
+
 
 	
 	

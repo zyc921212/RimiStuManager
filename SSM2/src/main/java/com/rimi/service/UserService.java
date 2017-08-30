@@ -77,7 +77,12 @@ public interface UserService {
 	public List<NewrecordBean> getNewRecord(int stuid);
 	//添加学生
 	public void addStudent(StuBean sb,ConsultBean cb,NewrecordBean nb);
-
+	//通过id查询咨询表
+	public ConsultBean getConsultBean(int stuid);
+	//修改学生信息
+	public void editStudent(StuBean sb,ConsultBean cb,ApplyBean ab,List nrt,List nre);
+	//查询学生展示信息
+	public StudentInfoBean getInfoByUserId(int stuid);
 
 
 }

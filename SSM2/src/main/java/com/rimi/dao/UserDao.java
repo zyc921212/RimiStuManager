@@ -23,7 +23,11 @@ public interface UserDao {
 	public UserBean login(String userLoginName,String userPs);
 	//zyc-------------通过普通用户获取学生信息类
 	public StuBean getStuBeanByStuId(int stuid);
+	//通过id查询咨询表
+	public ConsultBean getConsultBean(int stuid);
+	
 	public List<StudentInfoBean> getInfoListByUserId(Map pMap);
+	public StudentInfoBean getInfoByUserId(int stuid);
 	//咨询方式
 	public List<ConsultWayBean> getConsultWayByUserId();
 	public ConsultWayBean getConsultWay(int stuid);
@@ -68,6 +72,15 @@ public interface UserDao {
 	public void addNRBean(Map m);
 	//添加报名
 	public void addApplyBean(Map m);
+	//更改学生类
+	public void editStuBean(StuBean sb);
+	//更改咨询类
+	public void editConsultBean(Map m);
+	//更改报名类
+	public void editApplyBean(Map m);
+	//删除跟进信息
+	public void deleteAllNR(int stuid);
+	
 
 }
 

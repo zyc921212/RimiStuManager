@@ -93,6 +93,65 @@ public class UserServiceImpl implements UserService {
 		pMap.put("userjob",userjob);
 		return ud.getInfoListByUserId(pMap);
 	}
+	
+public List<StudentInfoBean> getInfoListByUserId1(int userid,int userjob,PageBean pb,ParamBean param){
+		
+		Map pMap = new HashMap(); 
+		
+		if(param!=null) {
+			if(param.getStuName()!=null&&!"".equals(param.getStuName())) {
+				pMap.put("stuName",param.getStuName());
+			}
+			
+			if(param.getStuTel()!=null&&!"".equals(param.getStuTel())) {
+				pMap.put("stuTel",param.getStuTel());
+			}
+			
+			if(param.getStuQq()!=null&&!"".equals(param.getStuQq())) {
+				pMap.put("stuQq",param.getStuQq());
+			}
+			
+			if(param.getConsultWay()!=null&&!"".equals(param.getConsultWay())&&!param.getConsultWay().equals("0")) {
+				System.out.println(param.getConsultWay());
+
+				pMap.put("consultWay",param.getConsultWay());
+			}
+			
+			if(param.getIsApply()!=null&&!"".equals(param.getIsApply())&&!param.getIsApply().equals("0")) {
+				pMap.put("isApply",param.getIsApply());
+			}
+			
+			if(param.getConsultPriority()!=null&&!"".equals(param.getConsultPriority())&&!param.getConsultPriority().equals("0")) {
+				pMap.put("consultPriority",param.getConsultPriority());
+			}
+			
+			if(param.getTimeway()!=null&&!"".equals(param.getTimeway())) {
+				System.out.println(param.getTimeway()+"何种方式");
+				pMap.put("timeway",param.getTimeway());
+			}
+			if(param.getDate1()!=null&&!"".equals(param.getDate1())) {
+				pMap.put("Date1",param.getDate1());
+			}
+			if(param.getDate2()!=null&&!"".equals(param.getDate2())) {
+				pMap.put("Date2",param.getDate2());
+			}
+			
+		}
+		
+		if(pb!=null) {
+		
+			int num=(Integer.parseInt(pb.getNowPage())-1)*(Integer.parseInt(pb.getPageSize()));
+		
+			pMap.put("num", num);
+			
+			int size=Integer.parseInt(pb.getPageSize());
+			
+			pMap.put("size", size);
+		}
+		pMap.put("userid", userid);
+		pMap.put("userjob",userjob);
+		return ud.getInfoListByUserId1(pMap);
+	}
 
 	
 	
@@ -351,7 +410,7 @@ public class UserServiceImpl implements UserService {
 			ud.editApplyBean(m1);
 			if(nrt!=null&&nre!=null) {
 				ud.deleteAllNR(sb.getStuId());
-				for (int i = 1; i < nrt.size(); i++) {
+				for (int i = 0; i < nrt.size(); i++) {
 					Map m2=new HashMap<>();
 					m2.put("nt", nrt.get(i));
 					m2.put("ne", nre.get(i));
@@ -367,6 +426,14 @@ public class UserServiceImpl implements UserService {
 		public StudentInfoBean getInfoByUserId(int stuid) {
 			// TODO Auto-generated method stub
 			return ud.getInfoByUserId(stuid);
+		}
+
+		@Override
+		public void deleteStu(int stuid) {
+				ud.deleteAllNR(stuid);
+				ud.deleteApply(stuid);
+				ud.deleteConsult(stuid);
+				ud.deleteStu(stuid);
 		}
 
 

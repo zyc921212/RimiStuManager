@@ -35,67 +35,121 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
     <script src="<%=basePath%>RXF/assets/vendor/chartist/js/chartist.min.js"></script>
     <script src="<%=basePath%>RXF/assets/scripts/klorofil-common.js"></script>
     <script type="text/javascript">
-        var i = 1;
+    var i = 1;
+    function addlow() {
 
-        function checkall() {
-            var alls = document.getElementsByName("check");
-            var ch = document.getElementById("checkall");
-            if (ch.checked) {
-                for (var i = 0; i < alls.length; i++) {
-                    alls[i].checked = true;
-                }
-            } else {
-                for (var i = 0; i < alls.length; i++) {
-                    alls[i].checked = false;
-                }
-            }
-        }
+        var sourceNode = document.getElementById("low-" + 0); // 获得被克隆的节点对象 
+        i++;
+        var clonedNode = sourceNode.cloneNode(true);
+        // 克隆节点 
 
-        function addlow() {
+       
+        clonedNode.setAttribute("id", "low-" + i);// 修改一下id 值，避免id 重复 
+   	
+        clonedNode.style.display='block';
+        clonedNode.getElementsByTagName("input")[0].value="";
+        clonedNode.getElementsByTagName("input")[1].value="";
+        clonedNode.getElementsByTagName("input")[0].setAttribute("name", "nrt");
+        clonedNode.getElementsByTagName("input")[1].setAttribute("name", "nre");
+        clonedNode.getElementsByTagName("div")[0].innerHTML =  "+.";
+        clonedNode.getElementsByTagName("a")[0].setAttribute("id", "d-" + i);
+        sourceNode.parentNode.appendChild(clonedNode); // 在父节点插入克隆的节点 
 
-            var sourceNode = document.getElementById("low-" + 1); // 获得被克隆的节点对象 
-            i++;
-            var clonedNode = sourceNode.cloneNode(true);
-            // 克隆节点 
+    }
 
-            clonedNode.setAttribute("id", "low-" + i); // 修改一下id 值，避免id 重复 
-            clonedNode.getElementsByTagName("input")[1].value = "";
-            clonedNode.getElementsByTagName("div")[0].innerHTML = i + ".";
-            clonedNode.getElementsByTagName("a")[0].setAttribute("id", "d-" + i);
-            sourceNode.parentNode.appendChild(clonedNode); // 在父节点插入克隆的节点 
+    function inter() {
+        var inter = document.getElementById("inner");
+    }
 
-        }
+    function dele(obj) {
+    	 if (confirm("确认操作?")) {
+             var x = document.getElementById("papa").removeChild(obj.parentElement);
+         }      
+    }
+    
+    $(function () {
+    	$('#radio1').ready(function(){
 
-        function delAll() {
-            var alls = document.getElementsByName("check");
-            var ids = new Array();
-            for (var i = 0; i < alls.length; i++) {
-                if (alls[i].checked) {
-                    ids.push(alls[i].value);
-                }
-            }
-            if (ids.length > 0) {
-                if (confirm("确认操作?")) {
-                    alert("成功!");
-                }
-            } else {
-                alert("请选中要操作的项");
-            }
-        }
+    		if(${sb.stuSex}==document.getElementById('radio1').value){
+    	    document.getElementById('radio1').checked=true;
+    	    }else if(${sb.stuSex}==document.getElementById('radio2').value){
+        	    document.getElementById('radio2').checked=true;
+    	    }
+    	});
+    });
+    $(function () {
+    	$('#radio11').ready(function(){
 
-        function inter() {
-            var inter = document.getElementById("inner");
-        }
+    		if(${ab.isApply}==document.getElementById('radio11').value){
+    	    document.getElementById('radio11').checked=true;
+    	    }else if(${ab.isApply}==document.getElementById('radio12').value){
+        	    document.getElementById('radio12').checked=true;
+    	    }
+    	});
+    });
+    $(function () {
+    	$('#radio3').ready(function(){
 
-        function dele(obj) {
-            var num = obj.id;
-            if (num == "d-1") {
-                alert("必须保留第一次的记录");
-            } else {
-                var x = document.getElementById("papa").removeChild(obj.parentElement);
-            }
-        }
+    		if(${sb.stuJobstate}==document.getElementById('radio3').value){
+    	    document.getElementById('radio3').checked=true;
+    	    }else if(${sb.stuJobstate}==document.getElementById('radio4').value){
+        	    document.getElementById('radio4').checked=true;
+    	    }else if(${sb.stuJobstate}==document.getElementById('radio5').value){
+        	    document.getElementById('radio5').checked=true;
+    	    }
+    	});
+    });
+    $(function () {
+    	$('#education').ready(function(){
+    		$('#education').val(${sb.stuEducation});        		
+    	});
+    });
+    $(function () {
+    	$('#priority').ready(function(){
+    		$('#priority').val(${cb.consultPriority});        		
+    	});
+    });
+    $(function () {
+    	$('#radio12').click(function(){
+				$('#formGroupInputLarge').val("");
+				$('#applyway').val(0);
+
+    	});
+    });
+    $(function(){
+        $("#addb").click(function(){
+        	
+        	var nrts=document.getElementsByName("nrt");
+        	var nres=document.getElementsByName("nre");
+        	
+            /* var t = $("input[name='nrt']").val().trim();
+            var e= $("input[name='nre']").val().trim(); */
+			for (var i = 0; i < nrts.length; i++) {
+				var nrt = nrts[i];
+				 if(nrt.value == ""){
+	                	alert("请填写完整的跟进时间")
+						return false;
+				}
+			}
+            
+			 for (var i = 0; i < nres.length; i++) {
+					var nre = nres[i];
+					 if(nre.value == ""){
+		                	alert("请填写完整的跟进记录")
+							return false;
+				}
+			 }
+        });
         
+            
+    });
+    
+    function fh(obj) {
+    	if (confirm("确认返回?")) {
+        	window.location.href="userIndex.do"; 
+        }
+    }
+   
         var w,h,className;
 	     function getSrceenWH(){
 	     	w = $(window).width();
@@ -152,9 +206,9 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>你好,${ub.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>你好,${editUb.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="lookInfo.do?InfoUserId=${ub.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+                                <li><a href="lookInfo.do?InfoUserId=${editUb.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
                                 <li><a href="javascript:;" class="bounceInDown"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
                                 <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
                             </ul>
@@ -200,7 +254,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             </a>
                             <div id="subPages2" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="lookInfo.do?InfoUserId=${ub.userId}" class="">我的资料</a></li>
+                                    <li><a href="lookInfo.do?InfoUserId=${editUb.userId}" class="">我的资料</a></li>
                                     <li><a href="javascript:;" class="bounceInDown">更改密码</a></li>
                                 </ul>
                             </div>
@@ -216,77 +270,99 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
             <div class="main-content">
                 <div class="container-fluid">
                     <h3 class="page-title">更改学员信息</h3>
-                    <form class="form-horizontal" action="main" method="post">
-                        <div class="row">
+                    <form class="form-horizontal" action="userEditStu.do" method="post">
+                       <div class="row">
                             <div class="col-md-6">
                                 <!-- BUTTONS -->
-
                                 <!-- END BUTTONS -->
                                 <!-- INPUTS -->
-                                <div class="panel">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">学员基本信息</h3>
-                                    </div>
+                                	<div class="panel">
+									<div class="panel-heading">
+										<h3 class="panel-title">学员基本信息</h3>
+									</div>
 
-                                    <div class="panel-body">
-                                        <div class="input-group" style="width:30%">
-                                            <span class="input-group-addon"><i class="fa fa-user" ></i></span>
-                                            <input class="form-control" placeholder="学员姓名" type="text">
-                                        </div>
-                                        <br>
-                                        <input type="text" class="form-control" style="width:30%;" placeholder="年龄">
-                                        <br>
-                                        <label class="fancy-radio">
-										<input name="gender" value="male" type="radio">
-										<span><i></i>男</span>
-									</label>
-                                        <label class="fancy-radio">
-										<input name="gender" value="female" type="radio">
-										<span><i></i>女</span>
-									</label>
-                                        <br>
+									<div class="panel-body">
+										<label class="col-md-2 control-label"
+											for="formGroupInputLarge"
+											style="position: relative; right: 45px;">学员姓名:</label>
+										<div class="input-group"
+											style="width: 30%; position: relative; right: 45px;">
+											<span class="input-group-addon"><i class="fa fa-user"></i></span>
+											<input type="hidden" name="stuId" value="${sb.stuId}">
+											<input class="form-control" type="text" 
+												value="${sb.stuName}" name="stuName">
+										</div>
+										<br> <label class="col-md-2 control-label"
+											for="formGroupInputLarge"
+											style="position: relative; right: 45px;">学员年龄:</label> <input
+											type="text" class="form-control"
+											style="width: 30%; position: relative; right: 45px;"
+										 value=${sb.stuAge} name="stuAge"> <br> <label
+											class="fancy-radio"> <input name="stuSex" value="1"
+											type="radio" id="radio1" > <span><i></i>男</span>
+										</label> <label class="fancy-radio"> <input name="stuSex"
+											value="2" type="radio" id="radio2" >
+											<span><i></i>女</span>
+										</label> <br> <label class="col-md-2 control-label"
+											for="formGroupInputLarge"
+											style="position: relative; right: 45px;">学员电话:</label> <input
+											type="text" class="form-control"
+											style="width: 70%; position: relative; right: 45px;"
+											 value="${sb.stuTel}" name="stuTel"> <br> <label
+											class="col-md-2 control-label" for="formGroupInputLarge"
+											style="position: relative; right: 45px;">学员微信:</label> <input
+											type="text" class="form-control"
+											style="width: 70%; position: relative; right: 45px;"
+											 value="${sb.stuWechat}" name="stuWechat"> <br>
+										<label class="col-md-2 control-label"
+											for="formGroupInputLarge"
+											style="position: relative; right: 45px;">学员QQ:</label> <input
+											type="text" class="form-control"
+											style="width: 70%; position: relative; right: 45px;"
+											 value="${sb.stuQq}" name="stuQq"> <br> <label
+											class="col-md-2 control-label" for="formGroupInputLarge"
+											style="position: relative; right: 45px;">学员地址:</label> <input
+											type="text" class="form-control"
+											style="width: 70%; position: relative; right: 45px;"
+											 value="${sb.stuRegion}" name="stuRegion"> <br>
+										<label class="col-md-2 control-label"
+											for="formGroupInputLarge"
+											style="position: relative; right: 45px;">学历:</label> 
+											<select class="form-control" style="width: 70%; position: relative; right: 45px;" name="stuEducation" id="education" >
+											<option value="0">学历</option>
+                                        <c:forEach var="eb" items="${ebs}" >
+                                     		<option value="${eb.educationId}">${eb.educationName}</option>
+                                        </c:forEach>
+										</select>
+										<br>
+										<label class="col-md-2 control-label"
+											for="formGroupInputLarge"
+											style="position: relative; right: 45px;">毕业学校:</label> <input
+											type="text" class="form-control"
+											style="width: 70%; position: relative; right: 45px;"
+											 value="${sb.stuSchool}" name="stuSchool"> <br>
 
-                                        <input type="text" class="form-control" placeholder="电话号码">
-
-                                        <br>
-                                        <input type="text" class="form-control" placeholder="微信号码">
-
-                                        <br>
-                                        <input type="text" class="form-control" placeholder="QQ号码">
-                                        <br>
-                                        <input type="text" class="form-control" placeholder="地址">
-                                        <br>
-                                        <select class="form-control" style="width:30%;float:left">
-										<option value="cheese">学历</option>
-										<option value="tomatoes">高中及以下</option>
-										<option value="mozarella">专科</option>
-										<option value="mushrooms">本科</option>
-										<option value="pepperoni">硕士</option>
-										<option value="onions">博士</option>
-									</select>
-                                        <input type="text" class="form-control" style="width:40%;float:left" placeholder="学校">
-
-                                        <input type="text" class="form-control" style="width:30%;float:left" placeholder="专业">
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <div>
-                                            <div style="float:left">工作状态:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                            <label class="fancy-checkbox" style="float:left">
-										<input type="radio" name="job">
-										<span>在职&nbsp;&nbsp;&nbsp;</span>
-									</label>
-                                            <label class="fancy-checkbox" style="float:left">
-										<input type="radio" name="job">
-										<span>休假&nbsp;&nbsp;&nbsp;</span>
-									</label>
-                                            <label class="fancy-checkbox" style="float:left">
-										<input type="radio" name="job">
-										<span>离职</span>
-									</label>
-                                        </div>
-                                    </div>
-                                </div>
+										<label class="col-md-2 control-label"
+											for="formGroupInputLarge"
+											style="position: relative; right: 45px;">专业:</label> <input
+											type="text" class="form-control"
+											style="width: 70%; position: relative; right: 45px;"
+											 value="${sb.stuMajor}" name="stuMajor"> <br> <br>
+										<div>
+											<div style="float: left">工作状态:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+											<label class="fancy-checkbox" style="float: left"> <input
+												type="radio" name="stuJobstate"  id="radio3"
+												value="1"> <span>在职&nbsp;&nbsp;&nbsp;</span>
+											</label> <label class="fancy-checkbox" style="float: left"> <input
+												type="radio" name="stuJobstate"  id="radio4"
+												value="2"> <span>休假&nbsp;&nbsp;&nbsp;</span>
+											</label> <label class="fancy-checkbox" style="float: left"> <input
+												type="radio" name="stuJobstate"  id="radio5"
+												value="3"> <span>离职</span>
+											</label>
+										</div>
+									</div>
+								</div>
                                 <!-- END INPUTS -->
                                 <!-- INPUT SIZING -->
                                 <div class="panel">
@@ -296,37 +372,36 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 
                                         <br> &nbsp;
                                         <label class="fancy-radio">
-										<input name="gender" value="YES" type="radio">
+										<input name="isApply" value="1" type="radio" id="radio11">
 										<span><i></i>已报名</span>
 									    </label>
                                         <label class="fancy-radio">
-										<input name="gender" value="NO" type="radio">
+										<input name="isApply" value="2" type="radio" id="radio12">
 										<span><i></i>未报名</span>
 									    </label>
                                         <br>
-                                        <div class="form-group form-group-md">
+                                         <div class="form-group form-group-md" style="position: relative;bottom:90px;left:300px;">
                                             <label class="col-md-2 control-label" for="formGroupInputLarge" style="position: relative;right: 5px;"> 学员报名时间:</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input" style="width:30%">
+                                                <input class="form-control"  type="date" id="formGroupInputLarge" style="width:30%" value="${ab.applyTime}" name="applyTime">
                                             </div>
-                                            <br>
-                                            <br>
+                                           
                                             <label class="col-md-2 control-label" for="formGroupInputLarge" style="position: relative;right: 5px;"> 学员付费方式:</label>
                                             <div class="col-md-10">
-                                                <select class="form-control" style="width:30%;float:left">
-										    <option value="cheese">学历</option>
-										    <option value="tomatoes">高中及以下</option>
-										    <option value="mozarella">专科</option>
-										    <option value="mushrooms">本科</option>
-										    <option value="pepperoni">硕士</option>
-										    <option value="onions">博士</option>
-									</select>
+                                               <select class="form-control input-md" name="applyWay" id="applyway" style="width:30%">
+							        		<option value="0" >--请选择--</option>
+							        		<c:forEach var="way" items="${awb}">
+							        		<c:if test="${ab.applyWay==way.applyWayId}">
+							        		<option value="${way.applyWayId}" selected="selected">${way.applyWayName}</option>
+							        		</c:if>
+							        		<c:if test="${ab.applyWay!=way.applyWayId}">
+							        		<option value="${way.applyWayId}">${way.applyWayName}</option>
+							        		</c:if>
+							        		</c:forEach>
+							        		</select>
                                             </div>
                                         </div>
-                                        <br>
-
                                     </div>
-                                    <br>
                                 </div>
 
                                 <!-- END INPUT SIZING -->
@@ -341,80 +416,103 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     <div class="panel-body">
 
 
-                                        <select class="form-control">
-										<option value="cheese">线上咨询师</option>
-										<option value="tomatoes">张三</option>
-										<option value="mozarella">李四</option>
-										<option value="mushrooms">王五</option>
-										<option value="pepperoni">赵六</option>
-										<option value="onions">茅十八</option>
+                                        <select class="form-control" name="onlineId" value="${cb.onlineId}">
+										<option value="0">线上咨询师</option>
+										 <c:forEach var="on" items="${online}">
+										 <c:if test="${cb.onlineId == on.userId}">
+                                     		<option value="${on.userId}" selected="selected">${on.userName}</option>
+                                     	</c:if>
+                                     	<c:if test="${cb.onlineId != on.userId}">
+                                     		<option value="${on.userId}" >${on.userName}</option>
+                                     	</c:if>
+                                        </c:forEach>
 									</select>
                                         <br>
-                                        <select class="form-control">
-										<option value="cheese">线下咨询师</option>
-										<option value="tomatoes">张三</option>
-										<option value="mozarella">李四</option>
-										<option value="mushrooms">王五</option>
-										<option value="pepperoni">赵六</option>
-										<option value="onions">茅十八</option>
+                                        <select class="form-control" name="offlineId" value="${cb.offlineId}">
+										<option value="0">线下咨询师</option>
+										 <c:forEach var="off" items="${offline}">
+										 	<c:if test="${cb.offlineId == off.userId}">
+	                                     		<option value="${off.userId}" selected="selected">${off.userName}</option>
+										 	</c:if>
+										 	<c:if test="${cb.offlineId != off.userId}">
+	                                     		<option value="${off.userId}" >${off.userName}</option>
+										 	</c:if>
+                                        </c:forEach>
 									</select>
                                         <br>
-                                        <select class="form-control">
-										<option value="cheese">咨询类别</option>
-										<option value="tomatoes">java</option>
-										<option value="mozarella">安卓</option>
-										<option value="mushrooms">前端</option>
-										<option value="pepperoni">C</option>
+                                        <select class="form-control" name="consultCategory">
+										<option value="0">咨询类别</option>
+										 <c:forEach var="ccb" items="${ccbs}">
+										 <c:if test="${cb.consultCategory==ccb.csCategoryId}">
+                                     		<option value="${ccb.csCategoryId}" selected="selected">${ccb.csCategoryName}</option>
+                                     	</c:if>
+                                     	<c:if test="${cb.consultCategory!=ccb.csCategoryId}">
+                                     		<option value="${ccb.csCategoryId}" >${ccb.csCategoryName}</option>
+                                     	</c:if>
+                                        </c:forEach>
 									</select>
                                         <br>
-                                        <select class="form-control">
-										<option value="cheese">咨询方式</option>
-										<option value="tomatoes">电话</option>
-										<option value="mozarella">网页</option>
-										<option value="mushrooms">邮箱</option>
+                                        <select class="form-control" name="consultWay">
+										<option value="0">咨询方式</option>
+										<c:forEach var="cw" items="${cwb}">
+										 <c:if test="${cb.consultWay==cw.csWayId}">
+                                     		<option value="${cw.csWayId}" selected="selected">${cw.csWayName}</option>
+                                     	</c:if>
+                                     	<c:if test="${cb.consultWay!=cw.csWayId}">
+                                     		<option value="${cw.csWayId}">${cw.csWayName}</option>
+                                     	</c:if>
+                                        </c:forEach>
 									</select>
                                         <br>
                                         <div class="form-group form-group-md">
                                             <label class="col-md-2 control-label" for="formGroupInputLarge">学员咨询日期</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
+                                                <input class="form-control" type="date" id="formGroupInputLarge"  name="consultDate" value="${cb.consultDate}">
                                             </div>
                                         </div>
-                                        <select class="form-control">
-										<option value="cheese">咨询时段</option>
-										<option value="tomatoes">电话</option>
-										<option value="mozarella">网页</option>
-										<option value="mushrooms">邮箱</option>
+                                        <select class="form-control" name="consultTime">
+										<option value="0">咨询时段</option>
+										<c:forEach var="ctb" items="${ctbs}">
+											<c:if test="${cb.consultTime==ctb.csTimeId}">
+                                     		<option value="${ctb.csTimeId}" selected="selected">${ctb.csTimeName}</option>
+                                     		</c:if>
+                                     		<c:if test="${cb.consultTime!=ctb.csTimeId}">
+                                     		<option value="${ctb.csTimeId}" >${ctb.csTimeName}</option>
+                                     		</c:if>
+                                        </c:forEach>
 									</select>
                                         <br>
-                                        <select class="form-control">
-										<option value="">平台来源</option>
-										<option value="1">网站</option>
-										<option value="2">报纸</option>
-										<option value="3">报纸</option>
-				                        <option value="4">报纸</option>
-				                        <option value="5">报纸</option>
+                                        <select class="form-control" name="sourcesId">
+										<option value="0">平台来源</option>
+										<c:forEach var="sour" items="${sours}">
+										<c:if test="${cb.sourcesId==sour.sourcesId}">
+                                     		<option value="${sour.sourcesId}" selected="selected">${sour.sourcesName}</option>
+                                     		</c:if>
+                                     		<c:if test="${cb.sourcesId!=sour.sourcesId}">
+                                     		<option value="${sour.sourcesId}" >${sour.sourcesName}</option>
+                                     		</c:if>
+                                        </c:forEach>
 
 									</select>
                                         <br>
-                                        <select class="form-control">
-										<option value="cheese">商情优先级</option>
-										<option value="tomatoes">★</option>
-										<option value="mozarella">★★</option>
-										<option value="mushrooms">★★★</option>
-				                        <option value="mushrooms">★★★★</option>
-				                        <option value="mushrooms">★★★★★</option>
+                                        <select class="form-control" name="consultPriority" id="priority">
+										<option value="0">商情优先级</option>
+										<option value="1">★</option>
+										<option value="2">★★</option>
+										<option value="3">★★★</option>
+				                        <option value="4">★★★★</option>
+				                        <option value="5">★★★★★</option>
 
 									</select>
                                         <br>
                                         <div class="form-group form-group-md">
                                             <label class="col-md-2 control-label" for="formGroupInputLarge">学员到访时间</label>
                                             <div class="col-md-10">
-                                                <input class="form-control" type="date" id="formGroupInputLarge" placeholder="Large input">
+                                                <input class="form-control" type="date" id="formGroupInputLarge"  name="visitTime" value="${cb.visitTime}">
                                             </div>
                                         </div>
 
-                                        <textarea class="form-control" placeholder="备注" rows="4" style="resize:none"></textarea>
+                                        <textarea class="form-control" placeholder="备注" rows="4" style="resize:none" name="consultRemark" >${cb.consultRemark}</textarea>
 
 
 
@@ -429,32 +527,41 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     </div>
                                     <br>
                                     <div class="panel-body" id="papa">
-                                        <div id="low-1">
+                                     <c:forEach var="nb" items="${nbs}" varStatus="status"> 
+										<div id="low-${status.index+1}">
+											<div style="float: left" class="control-label">${status.index+1}.</div>
+											<div style="float: left" class="control-label">跟进时间:&nbsp;&nbsp;&nbsp;&nbsp;</div>
+											<input type="date" class="form-control input-sm" name="nrt"
+												style="width: 20%; float: left" value="${nb.newrecordTime}">
+											<div style="float: left">&nbsp;&nbsp;&nbsp;</div>
+											<input class="form-control input-sm" placeholder="请输入跟进记录"
+												type="text" style="width: 58%; float: left" value="${nb.newrecordExplain}"  name="nre"> 
+												<div style="float:left">&nbsp;&nbsp;</div>
+                                            <a href="#" style="float:left;position: relative;top: 7px;" onclick="dele(this)" id="d-${nb.newrecordId}"><span class="label label-danger" class="control-label">删除</span></a>
+												<br>
+											<br>
+										</div>
+									</c:forEach> 
+									<div id="low-0" style="display:none">
                                             <div style="float:left" class="control-label">1.</div>
                                             <div style="float:left" class="control-label">跟进时间:&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                            <input type="date" class="form-control input-sm" name="times" style="width:20%;float:left">
+                                            <input type="date" class="form-control input-sm"  style="width:20%;float:left" >
                                             <div style="float:left">&nbsp;&nbsp;&nbsp;</div>
-                                            <input class="form-control input-sm" placeholder="请输入跟进记录" type="text" style="width:58%;float:left">
+                                            <input class="form-control input-sm" type="text" style="width:58%;float:left">
                                             <div style="float:left">&nbsp;&nbsp;</div>
-                                            <a href="#" style="float:left;position: relative;top: 7px;" onclick="dele(this)" id="d-1"><span class="label label-danger" class="control-label">删除</span></a>
+                                            <a href="#" style="float:left;position: relative;top:8px;" onclick="dele(this)"><span class="label label-danger" class="control-label">删除</span></a>
                                             <br>
                                             <br>
-                                        </div>
-
-
-
-
-
-
+                                        </div>                                       
                                     </div>
 
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-primary btn-lg btn-block">修改</button>
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block"  id="addb">修改</button>
                                     </div>
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-danger btn-lg btn-block">返回</button>
+                                        <button type="button" class="btn btn-danger btn-lg btn-block" onclick="fh()">返回</button>
                                     </div>
                                 </div>
                                 <!-- END LABELS -->

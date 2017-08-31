@@ -113,7 +113,7 @@ public class UserManagerController {
 				userJobState = Integer.parseInt(userJobState1);
 			}
 			UserBean ub = null;
-			if(userSex>0 && userAge>=0 && userState>0 && userRole>0 && userJob>0 && userJobState>0) {
+			if(userLoginName!=null&&!"".equals(userLoginName)&&userName!=null&&!"".equals(userName)&&userSex>0 && userAge>=0 && userState>0 && userRole>0 && userJob>0 && userJobState>0&&userPhone!=null&&!"".equals(userPhone)&&userEmail !=null&&!"".equals(userEmail)) {
 				ub= new UserBean(userId, userLoginName, userName, userPs, userSex, userAge, userState, userRole, userJob, userJobState, userEmail, userTel, userPhone, userQq);
 			}
 			if(ub != null) {

@@ -24,6 +24,7 @@ import com.rimi.bean.EducationBean;
 import com.rimi.bean.NewrecordBean;
 import com.rimi.bean.PageBean;
 import com.rimi.bean.ParamBean;
+import com.rimi.bean.SexBean;
 import com.rimi.bean.SourcesBean;
 import com.rimi.bean.StuBean;
 import com.rimi.bean.StudentInfoBean;
@@ -456,11 +457,10 @@ public class DomesticUserController {
 			pb = new PageBean(NowPage + "", count + "", pageSize + "", total + "");
 			lis = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), pb, p);
 		}
-
 		model.addAttribute("stus", lis);
 		model.addAttribute("pb", pb);
 		return "stu/index";
 
 	}
-
+	
 }

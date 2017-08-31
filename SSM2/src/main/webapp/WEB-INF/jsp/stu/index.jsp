@@ -20,6 +20,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
     <link rel="stylesheet" href="<%=basePath%>RXF/assets/vendor/linearicons/style.css">
     <link rel="stylesheet" href="<%=basePath%>RXF/assets/vendor/chartist/css/chartist-custom.css">
     <link rel="stylesheet" type="text/css" media="all" href="<%=basePath%>RXF/enterlist/style.css">
+    <link rel="stylesheet" href="<%=basePath%>RXF/assets/css/common.css"/>
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="<%=basePath%>RXF/assets/css/main.css">
@@ -166,6 +167,41 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 	        	}
 	        });
 	   }); 
+        $(function () {
+	        $('#bqk1').click(function () {
+					window.location.href='index.do';
+	        	
+	        });
+	   }); 
+        
+       
+        var w,h,className;
+        function getSrceenWH(){
+        	w = $(window).width();
+        	h = $(window).height();
+        	$('#dialogBg').width(w).height(h);
+        }
+
+        window.onresize = function(){  
+        	getSrceenWH();
+        }  
+        $(window).resize();  
+
+        $(function(){
+        	getSrceenWH();
+        	
+        	$('.bounceInDown').click(function(){
+        		className = $(this).attr('class');
+        		$('#dialogBg').fadeIn(300);
+        		$('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
+        	});
+        	
+        	$('.claseDialogBtn').click(function(){
+        		$('#dialogBg').fadeOut(300,function(){
+        			$('#dialog').addClass('bounceOutUp').fadeOut();
+        		});
+        	});
+        });
     </script>
 
 	
@@ -199,10 +235,9 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" style="position:relative;top:7px;" alt="Avatar"><span>${ub.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message(未实现)</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
-                                <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>登出</span></a></li>
+                                <li><a href="UserInfo.do?InfoUserId=${ub.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+                                <li><a href="javascript:;" class="bounceInDown"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
+                                <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -235,8 +270,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             </a>
                             <div id="subPages2" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="user.html" class="">我的信息</a></li>
-                                    <li><a href="Student-add.html" class="">更改密码</a></li>
+                                 <li><a href="UserInfo.do?InfoUserId=${ub.userId}" class="">我的资料</a></li>
+                                    <li><a href="javascript:;" class="bounceInDown">更改密码</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -320,7 +355,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     <td colspan="4">
                                         <div class="col-md-12 text-right">
                                             <button type="submit" class="btn btn-primary" id="bcx1" >查询</button>
-                                            <button type="submit" class="btn btn-primary" id="bqk1"	>清空</button>
+                                            <button type="button" class="btn btn-primary" id="bqk1"	>清空</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -340,8 +375,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                     <table class="table table-bordered table-hover definewidth m10">
                         <thead>
                             <tr>
-                                <th width="5%"><input type="checkbox" id="checkall" onChange="checkall();"></th>
-                                <th>序号</th>
+                                <th width="3%"><input type="checkbox" id="checkall" onChange="checkall();"></th>
+                                <th width="3%">序号</th>
                                 <th>学员姓名</th>
                                 <th>咨询日期</th>
                                 <th>线上咨询师</th>
@@ -355,7 +390,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                 <th>商情优先级</th>
                                 <th>是否报名</th>
                                 <th>最新跟进时间</th>
-                                <th>操作</th>
+                                <th width="250px">操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -394,6 +429,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                 <td>
                                     <a href='infoStudent.do?stuid=${stu.stuId}'><span class="label label-primary">详情</span></a>
                                     <a href='editStudent.do?stuid=${stu.stuId}'><span class="label label-info">编辑</span></a>
+                            	 	<a href='editStudent.do?stuid=${stu.stuId}' ><span class="label label-success" >跟进</span></a>
                                      <c:if test="${stu.isApply==2}">
 									 <a href='#loginmodal'  stuid="${stu.stuId}"><span class="label label-success" >点击报名</span></a>
                                 	</c:if>
@@ -463,7 +499,16 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
             <p class="copyright">&copy; 2017 <a href="http://www.rimiedu.com/" title="睿峰培训" target="_blank">睿峰培训</a></p>
         </div>
     </footer>
-    <!-- END WRAPPER -->
-</body>
+ <div >
+		<div id="dialogBg"></div>
+		<div id="dialog" class="animated">
+			<img class="dialogIco" width="50" height="50" src="<%=basePath%>RXF/assets/img/ico.png" alt="" />
+			<div class="dialogTop">
+				<a href="javascript:;" class="claseDialogBtn">关闭</a>
+			</div>
+			<iframe src="password.do" frameborder="0" scrolling="no" style="width: 300px; height: 300px;">
+			</iframe>
+		</div>
+	</div></body>
 
 </html>

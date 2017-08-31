@@ -22,6 +22,8 @@ public interface UserService {
 	public UserBean login(String userLoginName, String userPs);
 
 	public List<StudentInfoBean> getInfoListByUserId(int userid, int userjob, PageBean pb, ParamBean param);
+	public List<StudentInfoBean> getInfoListByUserId1(int userid, int userjob, PageBean pb, ParamBean param);
+
 
 	public List<ConsultWayBean> getConsultWayByUserId();
 
@@ -83,6 +85,8 @@ public interface UserService {
 	public void editStudent(StuBean sb,ConsultBean cb,ApplyBean ab,List nrt,List nre);
 	//查询学生展示信息
 	public StudentInfoBean getInfoByUserId(int stuid);
+	//删除学生信心
+	public void deleteStu(int stuid);
 
 
 }

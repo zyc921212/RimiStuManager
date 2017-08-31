@@ -26,6 +26,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
     <!-- ICONS -->
+    <link rel="stylesheet" href="<%=basePath%>RXF/assets/css/common.css"/>
 
     <script src="<%=basePath%>RXF/assets/vendor/jquery/jquery.min.js"></script>
     <script src="<%=basePath%>RXF/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -119,6 +120,34 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
             }
             }
         
+        var w,h,className;
+        function getSrceenWH(){
+        	w = $(window).width();
+        	h = $(window).height();
+        	$('#dialogBg').width(w).height(h);
+        }
+
+        window.onresize = function(){  
+        	getSrceenWH();
+        }  
+        $(window).resize();  
+
+        $(function(){
+        	getSrceenWH();
+        	
+        	$('.bounceInDown').click(function(){
+        		className = $(this).attr('class');
+        		$('#dialogBg').fadeIn(300);
+        		$('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
+        	});
+        	
+        	$('.claseDialogBtn').click(function(){
+        		$('#dialogBg').fadeOut(300,function(){
+        			$('#dialog').addClass('bounceOutUp').fadeOut();
+        		});
+        	});
+        });
+        
     </script>
     
     <script type="text/javascript">
@@ -151,10 +180,9 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>${ub.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message(未实现)</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
-                                <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>登出</span></a></li>
+                                <li><a href="UserInfo.do?InfoUserId=${ub.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+                                <li><a href="javascript:;" class="bounceInDown"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
+                                <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -186,8 +214,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             </a>
                             <div id="subPages2" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="user.html" class="">我的信息</a></li>
-                                    <li><a href="Student-add.html" class="">更改密码</a></li>
+                                   <li><a href="UserInfo.do?InfoUserId=${ub.userId}" class="">我的资料</a></li>
+                                    <li><a href="javascript:;" class="bounceInDown">更改密码</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -416,7 +444,16 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
         </div>
     </footer>
     <!-- END WRAPPER -->
-    <!-- Javascript -->
-
+ <div >
+		<div id="dialogBg"></div>
+		<div id="dialog" class="animated">
+			<img class="dialogIco" width="50" height="50" src="<%=basePath%>RXF/assets/img/ico.png" alt="" />
+			<div class="dialogTop">
+				<a href="javascript:;" class="claseDialogBtn">关闭</a>
+			</div>
+			<iframe src="password.do" frameborder="0" scrolling="no" style="width: 300px; height: 300px;">
+			</iframe>
+		</div>
+	</div>
 </body>
 </html>

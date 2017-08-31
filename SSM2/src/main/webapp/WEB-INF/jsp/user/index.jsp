@@ -118,6 +118,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 			 	
 			 }
 		}
+	    
     </script>
 </head>
 
@@ -267,7 +268,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     <div class="col-md-12 text-right">
                                         <button type="submit" class="btn btn-primary" type="button">查询</button>
                                         <button type="button" class="btn btn-primary" type="button" id="clean">清空</button>
-                                        <script type="text/javascript">
+                                         <script type="text/javascript">
 	                                        $("#clean").click(function() {                                
 	                                        	window.location.href="queryUser.do?isok=clean";
 	                                        });

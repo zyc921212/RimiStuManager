@@ -9,7 +9,7 @@ public class StudentInfoBean {
 	//学生信息属性
 	private String stuId;//学生ID
     private String stuName;//学员姓名
-    private Date consultDate;//咨询日期
+    private String consultDate;//咨询日期
     private String onlineId;//线上咨询师ID
     private String offlineId;//线下咨询师ID
     private String  stuTel;//联系电话
@@ -34,15 +34,7 @@ public class StudentInfoBean {
 	public void setStuName(String stuName) {
 		this.stuName = stuName;
 	}
-	public String getConsultDate() {
-		 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		 String dateString = formatter.format(consultDate);
-		 return dateString;
-	}
-	public void setConsultDate(Date consultDate) {
-		this.consultDate = consultDate;
-		
-	}
+
 	public String getOnlineId() {
 		return onlineId;
 	}
@@ -113,7 +105,13 @@ public class StudentInfoBean {
 		this.recentRecordTime = recentRecordTime;
 	
 	}
-	public StudentInfoBean(String stuId, String stuName, Date consultDate, String onlineId, String offlineId,
+	public String getConsultDate() {
+		return consultDate;
+	}
+	public void setConsultDate(String consultDate) {
+		this.consultDate = consultDate;
+	}
+	public StudentInfoBean(String stuId, String stuName, String consultDate, String onlineId, String offlineId,
 			String stuTel, String stuQq, String stuWechat, int stuAge, String stuSex, String consultWay,
 			int consultPriority, int isApply, Date recentRecordTime) {
 		super();
@@ -136,6 +134,7 @@ public class StudentInfoBean {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
     
 
 

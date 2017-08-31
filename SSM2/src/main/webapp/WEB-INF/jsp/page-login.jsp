@@ -58,14 +58,14 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                 </div>
 								<div class="form-group" align="left">
 								<label for="signin-pictureCheckCode" class="control-label sr-only">PictureCheckCode</label>
-                                    <input type="text" required="required" style="width:30%;height:34px;padding:6px 12px;font-size:14px;line-height:1.42857143;color:#555;background-color:#fff;background-image:none;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s" name="checkCode" id="checkCode" title="验证码区分大小写" size="10" maxlength="4" placeholder="验证码">
+                                    <input type="text" required="required" style="width:30%;height:34px;padding:6px 12px;font-size:14px;line-height:1.42857143;color:#555;background-color:#fff;background-image:none;border:1px solid #ccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s" name="checkCode" id="checkCode" title="验证码不区分大小写" size="10" maxlength="4" placeholder="验证码">
 									<img src="PictureCheckCode" id="CreateCheckCode">
 									<a href="javascript:myReload()"> 看不清,换一个</a>
 								</div>
 								<div class="form-group clearfix">
                                     <label class="fancy-checkbox element-left">
 										<input type="checkbox" name="remember" value="Checked">
-										<span>记住我</span>
+										<span>七天免登陆</span>
 									</label>
                                 </div>
                                 <input type="submit" class="btn btn-primary btn-lg btn-block" value="登录">
@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                         <div class="overlay"></div>
                         <div class="content text">
                             <h1 class="heading">Chengdu Rightiphone Technology</h1>
-                            <p>by The Develovers</p>
+                            <p>by The Developers</p>
                         </div>
                     </div>
                     <div class="clearfix"></div>

@@ -22,7 +22,6 @@ import com.rimi.bean.UserBean;
 import com.rimi.service.UserService;
 
 @Controller
-@SessionAttributes("ub")
 public class UserController {
 
 	@Autowired
@@ -89,7 +88,7 @@ public class UserController {
 			if (checkCode == null || checkCode.equals("")) {
 				request.setAttribute("userLoginName", userLoginName);
 				return "page-login";
-			} else if (!code.equals(checkCode)) {
+			} else if (!code.equalsIgnoreCase(checkCode)) {
 				request.setAttribute("message", "验证码错误 ！");
 				request.setAttribute("userLoginName", userLoginName);
 				return "page-login";
@@ -117,13 +116,13 @@ public class UserController {
 
 								if (remember == null || remember.equals(null)) {
 									// 不论是否勾选记住密码，默认记住密码30分钟(已注释)
-//									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
-//									userPsCookie = new Cookie("userPs", userPs);
-//									userLoginNameCookie.setMaxAge(30 * 60);
-//									userPsCookie.setMaxAge(30 * 60);
-//									response.addCookie(userLoginNameCookie);
-//									response.addCookie(userPsCookie);
-//									System.out.println("cookie30分钟的保存到了");
+									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
+									userPsCookie = new Cookie("userPs", userPs);
+									userLoginNameCookie.setMaxAge(60 * 60 * 2);
+									userPsCookie.setMaxAge(60 * 60 * 2);
+									response.addCookie(userLoginNameCookie);
+									response.addCookie(userPsCookie);
+									System.out.println("cookie2个小时的保存到了");
 								} else if (remember.equals("Checked")) {
 									userLoginNameCookie = new Cookie("userLoginName", userLoginName);
 									userPsCookie = new Cookie("userPs", userPs);
@@ -150,13 +149,11 @@ public class UserController {
 								session.setAttribute("online", online);
 								session.setAttribute("offline", offline);
 								session.setAttribute("ebs", ebs);
-								session.setAttribute("ub", ub);
 								session.setAttribute("awb", awb);
 								session.setAttribute("csway", cwb);
 								session.setAttribute("ccbs", ccbs);
 								session.setAttribute("ctbs", ctbs);
 								session.setAttribute("sours", sours);
-								
 								session.setAttribute("loginUb", ub);
 								session.setAttribute("ub", ub);
 								return "redirect:/queryUser.do?isok=clean";
@@ -184,7 +181,6 @@ public class UserController {
 								session.setAttribute("sours", sours);
 
 								// zyc-end
-								session.setAttribute("ub", ub);
 								return "redirect:index.do";
 							} else {
 								request.setAttribute("message", "身份信息错误，无法登录 ！");

@@ -98,6 +98,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
             }
         } */
         $(function(){
+        	
             $("#addb").click(function(){
                 var t = $("#nrt").val().trim();
                 var e= $("#nre").val().trim();
@@ -118,7 +119,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
         	if (confirm("确认返回?")) {
             	window.location.href="userIndex.do"; 
             }
-            }
+       }
         
         var w,h,className;
 	     function getSrceenWH(){
@@ -175,9 +176,9 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>你好,${ub.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>你好,${addUb.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="lookInfo.do?InfoUserId=${ub.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+                                <li><a href="lookInfo.do?InfoUserId=${addUb.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
                                 <li><a href="javascript:;" class="bounceInDown"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
                                 <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
                             </ul>
@@ -223,7 +224,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             </a>
                             <div id="subPages2" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="lookInfo.do?InfoUserId=${ub.userId}" class="">我的资料</a></li>
+                                    <li><a href="lookInfo.do?InfoUserId=${addUb.userId}" class="">我的资料</a></li>
                                     <li><a href="javascript:;" class="bounceInDown">更改密码</a></li>
                                 </ul>
                             </div>

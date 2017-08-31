@@ -25,6 +25,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
     <link rel="stylesheet" href="<%=basePath%>RXF/assets/css/demo.css">
     <!-- GOOGLE FONTS -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+        <link rel="stylesheet" href="<%=basePath%>RXF/assets/css/common.css"/>
+    
     <!-- ICONS -->
 
     <script src="<%=basePath%>RXF/assets/vendor/jquery/jquery.min.js"></script>
@@ -59,12 +61,15 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 
            
             clonedNode.setAttribute("id", "low-" + i);// 修改一下id 值，避免id 重复 
-       	
-            clonedNode.style.display='block';
-            clonedNode.getElementsByTagName("div")[0].innerHTML =  "+.";
-            clonedNode.getElementsByTagName("a")[0].setAttribute("id", "d-" + i);
-            sourceNode.parentNode.appendChild(clonedNode); // 在父节点插入克隆的节点 
-
+   	
+        clonedNode.style.display='block';
+        clonedNode.getElementsByTagName("input")[0].value="";
+        clonedNode.getElementsByTagName("input")[1].value="";
+        clonedNode.getElementsByTagName("input")[0].setAttribute("name", "nrt");
+        clonedNode.getElementsByTagName("input")[1].setAttribute("name", "nre");
+        clonedNode.getElementsByTagName("div")[0].innerHTML =  "+.";
+        clonedNode.getElementsByTagName("a")[0].setAttribute("id", "d-" + i);
+        sourceNode.parentNode.appendChild(clonedNode); // 在父节点插入克隆的节点 
         }
 
         function delAll() {
@@ -178,6 +183,33 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
             	window.location.href="index.do"; 
             }
             }
+        var w,h,className;
+        function getSrceenWH(){
+        	w = $(window).width();
+        	h = $(window).height();
+        	$('#dialogBg').width(w).height(h);
+        }
+
+        window.onresize = function(){  
+        	getSrceenWH();
+        }  
+        $(window).resize();  
+
+        $(function(){
+        	getSrceenWH();
+        	
+        	$('.bounceInDown').click(function(){
+        		className = $(this).attr('class');
+        		$('#dialogBg').fadeIn(300);
+        		$('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
+        	});
+        	
+        	$('.claseDialogBtn').click(function(){
+        		$('#dialogBg').fadeOut(300,function(){
+        			$('#dialog').addClass('bounceOutUp').fadeOut();
+        		});
+        	});
+        });
     </script>
     
     <script type="text/javascript">
@@ -210,10 +242,9 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                         <li class="dropdown">
                             <a href="index.do" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" alt="Avatar"> <span>${ub.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message(未实现)</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
-                                <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>登出</span></a></li>
+                                <li><a href="UserInfo.do?InfoUserId=${ub.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+                                <li><a href="javascript:;" class="bounceInDown"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
+                                <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -233,7 +264,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             </a>
                             <div id="subPages1" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="myindex.do" class="">学员跟进</a></li>
+                                    <li><a href="index.do" class="">学员跟进</a></li>
                                     <li><a href="addStudent.do" class="">添加学员</a></li>
                                 </ul>
                             </div>
@@ -245,8 +276,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             </a>
                             <div id="subPages2" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="user.html" class="">我的信息</a></li>
-                                    <li><a href="Student-add.html" class="">更改密码</a></li>
+                                    <li><a href="UserInfo.do?InfoUserId=${ub.userId}" class="">我的资料</a></li>
+                                    <li><a href="javascript:;" class="bounceInDown">更改密码</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -519,6 +550,17 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     </div>
                                     <br>
                                     <div class="panel-body" id="papa">
+                                    <div id="low-0" style="display: none">
+                                            <div style="float:left" class="control-label">1.</div>
+                                            <div style="float:left" class="control-label">跟进时间:&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                            <input type="date" class="form-control input-sm"  style="width:20%;float:left"  >
+                                            <div style="float:left">&nbsp;&nbsp;&nbsp;</div>
+                                            <input class="form-control input-sm" placeholder="请输入跟进记录" type="text" style="width:58%;float:left" >
+                                            <div style="float:left">&nbsp;&nbsp;</div>
+                                            <a href="#" style="float:left;position: relative;top:8px;" onclick="dele(this)"><span class="label label-danger" class="control-label">删除</span></a>
+                                            <br>
+                                            <br>
+                                        </div>
                                      <c:forEach var="nb" items="${nbs}" varStatus="status"> 
 										<div id="low-${status.index+1}">
 											<div style="float: left" class="control-label">${status.index+1}.</div>
@@ -534,17 +576,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 											<br>
 										</div>
 									</c:forEach> 
-									<div id="low-0" style="display: none">
-                                            <div style="float:left" class="control-label">1.</div>
-                                            <div style="float:left" class="control-label">跟进时间:&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                                            <input type="date" class="form-control input-sm"  style="width:20%;float:left" name="nrt">
-                                            <div style="float:left">&nbsp;&nbsp;&nbsp;</div>
-                                            <input class="form-control input-sm" placeholder="请输入跟进记录" type="text" style="width:58%;float:left" name="nre">
-                                            <div style="float:left">&nbsp;&nbsp;</div>
-                                            <a href="#" style="float:left;position: relative;top:8px;" onclick="dele(this)"><span class="label label-danger" class="control-label">删除</span></a>
-                                            <br>
-                                            <br>
-                                        </div>
+									
                                         
 
 
@@ -585,8 +617,17 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
         </div>
     </footer>
     <!-- END WRAPPER -->
-    <!-- Javascript -->
-
+ <div >
+		<div id="dialogBg"></div>
+		<div id="dialog" class="animated">
+			<img class="dialogIco" width="50" height="50" src="<%=basePath%>RXF/assets/img/ico.png" alt="" />
+			<div class="dialogTop">
+				<a href="javascript:;" class="claseDialogBtn">关闭</a>
+			</div>
+			<iframe src="password.do" frameborder="0" scrolling="no" style="width: 300px; height: 300px;">
+			</iframe>
+		</div>
+	</div>
 </body>
 
 </html>

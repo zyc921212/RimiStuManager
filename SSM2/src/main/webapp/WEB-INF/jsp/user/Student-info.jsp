@@ -48,6 +48,10 @@
 <script src="<%=basePath%>RXF/assets/scripts/klorofil-common.js"></script>
 <script type="text/javascript">
     $(function () {
+    	$('#backid').click(function() {
+            window.location.href = "userIndex.do";
+        });
+    	
     	$('#radio1').ready(function(){
 
     		if(${sb.stuSex}==document.getElementById('radio1').value){
@@ -143,10 +147,10 @@
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"><img
 							src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle"
-							alt="Avatar"> <span>你好,${ub.userName}</span> <i
+							alt="Avatar"> <span>你好,${infoUb.userName}</span> <i
 							class="icon-submenu lnr lnr-chevron-down"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="lookInfo.do?InfoUserId=${ub.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+							<li><a href="lookInfo.do?InfoUserId=${infoUb.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
                                 <li><a href="javascript:;" class="bounceInDown"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
                                 <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
 						</ul></li>
@@ -438,10 +442,7 @@
 									</div>
 
 								</div>
-								<button type="submit" class="btn btn-primary btn-lg btn-block">返回
-								</button>
-
-
+								<button type="submit" class="btn btn-primary btn-lg btn-block" id="backid">返回</button>
 							</div>
 						</div>
 					</form>

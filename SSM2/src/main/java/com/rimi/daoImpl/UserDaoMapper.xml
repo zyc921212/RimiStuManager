@@ -341,6 +341,21 @@
  		select * from consult_tb where stu_id=#{stuid}
  	</select>
  	
+ 	
+				
+	<delete id="deleteApply" parameterType="int">
+	delete from apply_tb where stu_id=#{stuid} 
+	</delete>
+	
+	<delete id="deleteConsult" parameterType="int">
+	delete from consult_tb where stu_id=#{stuid} 
+	</delete>
+	
+	<delete id="deleteStu" parameterType="int">
+	delete from stu_tb where stu_id=#{stuid} 
+	</delete>
+ 	
+ 	
  	<select id="getInfoByUserId" parameterType="int" resultMap="sib">
  		SELECT distinct s.stu_id,
 		s.stu_name,
@@ -363,7 +378,60 @@
 		</where>
  	</select>
  	
- 	<select id="getInfoListByUserId" parameterType="java.util.Map" resultMap="sib" >
+ 	<select id="getInfoListByUserId1" parameterType="java.util.Map" resultMap="sib" >
+		SELECT distinct s.stu_id,
+		s.stu_name,
+		c.consult_date,
+		u1.user_name as name,
+		u2.user_name,s.stu_tel,s.stu_qq,
+		s.stu_wechat,
+		s.stu_age,se.sex_name,
+		cwt.cs_way_name,c.consult_priority,
+		a.is_apply,r.newrecord_time from stu_tb s 
+		
+		LEFT JOIN consult_tb c on s.stu_id=c.stu_id 
+		LEFT JOIN consult_way_tb cwt on cwt.cs_way_id=c.consult_way
+		LEFT JOIN user_tb u1 on c.online_id=u1.user_id 
+		 <if test="userjob==1">
+		and u1.user_id=#{userid}
+		</if> 
+		LEFT JOIN user_tb u2 on c.offline_id=u2.user_id 
+		<if test="userjob==2">
+		and u2.user_id=#{userid}
+		</if> 
+		LEFT JOIN apply_tb a on s.stu_id=a.stu_id
+		LEFT JOIN newrecord_tb r on s.stu_id=r.stu_id
+		LEFT JOIN sex_tb se on s.stu_sex=se.sex_id
+	<where>
+	 r.newrecord_time=(select max(newrecord_time)  from  newrecord_tb WHERE stu_id=s.stu_id) 
+	<if test="stuName != null and stuName.length>0 " >and s.stu_name like concat(concat('%',#{stuName}),'%')</if>
+	<if test="stuTel != null and stuTel.length>0 " >and s.stu_tel like concat(concat('%',#{stuTel}),'%')</if>
+	<if test="stuQq != null and stuQq.length>0 " >and s.stu_qq like concat(concat('%',#{stuQq}),'%')</if>
+	<if test="consultWay != null and consultWay.length>0 " >and c.consult_way=#{consultWay}</if>
+	<if test="isApply != null and isApply.length>0 " >and a.is_apply=#{isApply}</if>
+	<if test="consultPriority != null and consultPriority.length>0 " >and c.consult_priority=#{consultPriority}</if>
+	<if test="timeway==1">
+	<if test="Date1!=null and Date1.length>0">
+	<![CDATA[ and c.consult_date >= #{Date1} ]]>
+	</if>
+	<if test="Date2!=null and Date2.length>0">
+	<![CDATA[ and c.consult_date <= #{Date2} ]]>
+	</if> 
+	</if>
+	<if test="timeway==2">
+	<if test="Date1!=null and Date1.length>0">
+	<![CDATA[ and r.newrecord_time >= #{Date1} ]]>
+	</if>
+	<if test="Date2!=null and Date2.length>0">
+	<![CDATA[ and r.newrecord_time <= #{Date2} ]]>
+	</if> 
+	</if>
+	 order by s.stu_id
+	<if test="num!=null and size!=null">  limit #{num},#{size}</if>
+	</where>
+  	</select> 
+  	
+  	<select id="getInfoListByUserId" parameterType="java.util.Map" resultMap="sib" >
 		SELECT distinct s.stu_id,
 		s.stu_name,
 		c.consult_date,

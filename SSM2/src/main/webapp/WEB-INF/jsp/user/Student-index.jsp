@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" isELIgnored="false"%>
 <%   
 String path = request.getContextPath();   
 String basePath = request.getScheme()+"://" +request.getServerName()+":" +request.getServerPort()+path+"/" ;   
@@ -160,6 +160,75 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 	        	}
 	        });
 	   }); 
+        
+        $(function () {
+ 			$('#excelPro').click(function(){
+ 				var alls=document.getElementsByName("check");
+ 				var ids=new Array();
+ 				var str="";
+ 				for(var i=0;i<alls.length;i++){
+ 					var c=alls[i];
+ 					if(c.checked){
+ 						ids.push(c.value);
+ 						if(str==""){
+ 							 str=c.value;
+ 						}else{
+ 							str=str+","+c.value;
+ 						}	
+ 					}			
+ 				}
+ 				if(ids.length>0){
+ 					if(confirm("确认操作?")){
+ 	 					window.location.href='userExcel.do?Str='+str;
+ 					}
+ 				}else{
+ 					alert("请选中要操作的项");
+ 				}
+ 			 });
+ 	    });
+        
+        $(function () {
+ 			$('#deletePro').click(function(){
+ 				var alls=document.getElementsByName("check");
+ 				var ids=new Array();
+ 				var str="";
+ 				for(var i=0;i<alls.length;i++){
+ 					var c=alls[i];
+ 					if(c.checked){
+ 						ids.push(c.value);
+ 						if(str==""){
+ 							 str=c.value;
+ 						}else{
+ 							str=str+","+c.value;
+ 						}	
+ 					}			
+ 				}
+ 				if(ids.length>0){
+ 					if(confirm("确认操作?")){
+ 	 					window.location.href='deleteStu.do?Str='+str;
+ 					}
+ 				}else{
+ 					alert("请选中要操作的项");
+ 				}
+ 			 });
+ 	    });
+        $(function () {
+ 			$('#excelProAll').click(function(){
+ 				
+ 					if(confirm("确认操作?")){
+ 	 					window.location.href='userExcel.do?Str=all';
+ 					}
+ 				
+ 			 });
+ 	    });
+        
+        
+        $(function () {
+	        $('#bqk1').click(function () {
+					window.location.href='userIndex.do';
+	        	
+	        });
+	   }); 
     </script>
 	<script type="text/javascript">
 		function logout(){
@@ -189,9 +258,9 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" style="position:relative;top:7px;" alt="Avatar"><span>你好,${ub.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="<%=basePath%>RXF/assets/img/user1.png" class="img-circle" style="position:relative;top:7px;" alt="Avatar"><span>你好,${queryUb.userName}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
                             <ul class="dropdown-menu">
-                                 <li><a href="lookInfo.do?InfoUserId=${ub.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+                                 <li><a href="lookInfo.do?InfoUserId=${queryUb.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
                                 <li><a href="javascript:;" class="bounceInDown"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
                                 <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
                             </ul>
@@ -237,7 +306,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             </a>
                             <div id="subPages2" class="collapse">
                                 <ul class="nav">
-                                    <li><a href="lookInfo.do?InfoUserId=${ub.userId}" class="">我的资料</a></li>
+                                    <li><a href="lookInfo.do?InfoUserId=${queryUb.userId}" class="">我的资料</a></li>
                                     <li><a href="javascript:;" class="bounceInDown">更改密码</a></li>
                                 </ul>
                             </div>
@@ -261,7 +330,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                             <tbody>
                                 <tr>
                                     <td width="10%" class="tableleft">学生姓名：</td>
-                                    <td><input type="text" name="stuName" value="${param.stuName}" /></td>
+                                    <td><input type="text" name="stuName" value="${sessionScope.param.stuName}" /></td>
 
 
                                     <td width="10%" class="tableleft">学生电话：</td>
@@ -322,7 +391,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     <td colspan="4">
                                         <div class="col-md-12 text-right">
                                             <button type="submit" class="btn btn-primary" id="bcx1" >查询</button>
-                                            <button type="submit" class="btn btn-primary" id="bqk1"	>清空</button>
+                                            <button type="button" class="btn btn-primary" id="bqk1"	>清空</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -342,8 +411,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                     <table class="table table-bordered table-hover definewidth m10">
                         <thead>
                             <tr>
-                                <th width="5%"><input type="checkbox" id="checkall" onChange="checkall();"></th>
-                                <th>序号</th>
+                                <th width="3%"><input type="checkbox" id="checkall" onChange="checkall();"></th>
+                                <th width="3%">序号</th>
                                 <th>学员姓名</th>
                                 <th>咨询日期</th>
                                 <th>线上咨询师</th>
@@ -357,7 +426,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                 <th>商情优先级</th>
                                 <th>是否报名</th>
                                 <th>最新跟进时间</th>
-                                <th>操作</th>
+                                <th width="250px">操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -368,34 +437,101 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                         <c:forEach   var="stu"  items="${stus}">
                             <tr>
                                 <td style="vertical-align:middle;">
-                                    <input type="checkbox" name="check" value="1">
+                                    <input type="checkbox" name="check" value="${stu.stuId}">
                                 </td>
                                 <td><%=i %> </td>
-                                <td>${stu.stuName}</td>
-                                <td>${stu.consultDate}</td>
-                                <td>${stu.onlineId}</td>
-                                <td>${stu.offlineId}</td>
-                                <td>${stu.stuTel}</td>
-                                <td>${stu.stuQq}</td>
-                                <td>${stu.stuWechat}</td>
-                                <td>${stu.stuAge}</td>
-                                <td>${stu.stuSex}</td>
-                                <td>${stu.consultWay}</td>
-                                <td>
+                                <c:if test="${not empty stu.stuName}">
+ 								   <td>${stu.stuName}</td>
+                                </c:if>
+                                <c:if test="${empty stu.stuName}">
+ 								   <td>未知</td>
+                                </c:if>
+                                <c:if test="${not empty stu.consultDate}">
+ 								   <td>${stu.consultDate}</td>
+                                </c:if>
+                                <c:if test="${empty stu.consultDate}">
+ 								   <td>未知</td>
+                                </c:if>
+                                 <c:if test="${not empty stu.onlineId}">
+ 								   <td>${stu.onlineId}</td>
+                                </c:if>
+                                <c:if test="${empty stu.onlineId}">
+ 								   <td>未知</td>
+                                </c:if>
+                                  <c:if test="${not empty stu.offlineId}">
+ 								   <td>${stu.onlineId}</td>
+                                </c:if>
+                                <c:if test="${empty stu.offlineId}">
+ 								   <td>未知</td>
+                                </c:if>
+                                  <c:if test="${not empty stu.stuTel}">
+ 								   <td>${stu.stuTel}</td>
+                                </c:if>
+                                <c:if test="${empty stu.stuTel}">
+ 								   <td>未知</td>
+                                </c:if>
+                                   <c:if test="${not empty stu.stuQq}">
+ 								   <td>${stu.stuTel}</td>
+                                </c:if>
+                                <c:if test="${empty stu.stuQq}">
+ 								   <td>未知</td>
+                                </c:if>
+                                   <c:if test="${not empty stu.stuWechat}">
+ 								   <td>${stu.stuWechat}</td>
+                                </c:if>
+                                <c:if test="${empty stu.stuWechat}">
+ 								   <td>未知</td>
+                                </c:if>
+                                 <c:if test="${not empty stu.stuAge}">
+ 								   <td>${stu.stuAge}</td>
+                                </c:if>
+                                <c:if test="${empty stu.stuAge}">
+ 								   <td>未知</td>
+                                </c:if>
+                                <c:if test="${not empty stu.stuSex}">
+ 								   <td>${stu.stuSex}</td>
+                                </c:if>
+                                <c:if test="${empty stu.stuSex}">
+ 								   <td>未知</td>
+                                </c:if>
+                                 <c:if test="${not empty stu.consultWay}">
+ 								   <td>${stu.consultWay}</td>
+                                </c:if>
+                                <c:if test="${empty stu.consultWay}">
+ 								   <td>未知</td>
+                                </c:if>
+                             	<c:if test="${not empty stu.consultPriority}">
+                             	<td>
                                   <c:forEach     begin="1" end="${stu.consultPriority}">
                             		      ★
                                   </c:forEach>
                                 </td>
+                             	</c:if>
+								<c:if test="${ empty stu.consultPriority}">
+                				   <td>未知</td>
+                                </c:if>
+                                
                                 <c:if test="${stu.isApply==1}">
                                 <td>已报名</td>
                                 </c:if>
                                 <c:if test="${stu.isApply==2}">
                                 <td>未报名</td>
                                 </c:if>
-                                <td>${stu.recentRecordTime}</td>
+                                <c:if test="${ empty stu.isApply}">
+                				   <td>未知</td>
+                                </c:if>
+                                
+                                <c:if test="${not empty stu.recentRecordTime}">
+ 								     <td>${stu.recentRecordTime}</td>
+                                </c:if>
+                                 <c:if test="${empty stu.recentRecordTime}">
+ 								     <td>未知</td>
+                                </c:if>
                                 <td>
                                     <a href='userInfoStu.do?stuid=${stu.stuId}'><span class="label label-primary">详情</span></a>
-                                    <a href='userEditStu.do?stuid=${stu.stuId}'><span class="label label-info">编辑</span></a>
+                                    <a href='userEditStudent.do?stuid=${stu.stuId}'><span class="label label-info">编辑</span></a>
+                                  	<a href='userEditStudent.do?stuid=${stu.stuId}'><span class="label label-info">跟进</span></a>
+                                    
                                      <c:if test="${stu.isApply==2}">
 									 <a href='#loginmodal'  stuid="${stu.stuId}"><span class="label label-success" >点击报名</span></a>
                                 	</c:if>
@@ -426,8 +562,9 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                         </script>
                                     </div>
                                     <div class=" col-md-6 text-right">
-                                        <button type="submit" class="btn btn-primary" type="button">导出选中</button>
-                                        <button type="submit" class="btn btn-primary" type="button">导出所有</button>
+										 <button type="submit" class="btn btn-primary" type="button" id="deletePro">删除选中</button>
+                                        <button type="submit" class="btn btn-primary" type="button" id="excelPro">导出选中</button>
+                                        <button type="submit" class="btn btn-primary" type="button" id="excelProAll">导出所有</button>
                                     </div>
                                 </td>
                             </tr>

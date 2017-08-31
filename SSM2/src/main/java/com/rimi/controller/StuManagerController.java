@@ -1,13 +1,19 @@
 package com.rimi.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.rimi.bean.ApplyBean;
 import com.rimi.bean.ApplyWayBean;
@@ -23,18 +29,30 @@ import com.rimi.bean.SourcesBean;
 import com.rimi.bean.StuBean;
 import com.rimi.bean.StudentInfoBean;
 import com.rimi.bean.UserBean;
+import com.rimi.service.UserManagerService;
 import com.rimi.service.UserService;
 
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
+
 @Controller
+@SessionAttributes("param")
 public class StuManagerController {
 
 	@Autowired
 	UserService us;
 	
+	@Autowired
+	private UserManagerService userMs;
+	
 	@RequestMapping("userIndex.do")
 	public String toIndex(Model model, String nowpage, HttpSession session) {
 		UserBean ub = (UserBean) session.getAttribute("ub");
-		int count = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), null, null).size();
+		int count = us.getInfoListByUserId1(ub.getUserId(), ub.getUserJob(), null, null).size();
 		// 得到每页的条数
 		int pageSize = 3;
 		// 得到总页数
@@ -53,21 +71,26 @@ public class StuManagerController {
 
 		PageBean pb = new PageBean(NowPage + "", count + "", pageSize + "", total + "");
 		// 得到所有的信息
-		List<StudentInfoBean> lis = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), pb, null);
+		List<StudentInfoBean> lis = us.getInfoListByUserId1(ub.getUserId(), ub.getUserJob(), pb, null);
 		model.addAttribute("stus", lis);
 		model.addAttribute("pb", pb);
+		if(ub!=null) {
+			int userId1 = ub.getUserId();
+			UserBean ub3 = userMs.getInfoById(userId1);
+			model.addAttribute("queryUb", ub3);
+		}
 		session.removeAttribute("param");
 		return "user/Student-index";
 
 	}
 	
 	@RequestMapping("/userStudent.do")
-	public String searchStudent(String nowpage, Model model, HttpSession session, ParamBean param1, String isok) {
+	public String userStudent(String nowpage, Model model, HttpSession session, ParamBean param1, String isok) {
 
 		UserBean ub = (UserBean) session.getAttribute("ub");
 		ParamBean p = (ParamBean) session.getAttribute("param");
 
-		int count = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), null, param1).size();
+		int count = us.getInfoListByUserId1(ub.getUserId(), ub.getUserJob(), null, param1).size();
 		int pageSize = 3;
 		PageBean pb;
 		List<StudentInfoBean> lis;
@@ -83,7 +106,7 @@ public class StuManagerController {
 			System.out.println("搜索以何种方式：" + param1.getTimeway());
 			System.out.println("搜索條件咨询日期前：" + param1.getDate1());
 			System.out.println("搜索條件咨询日期后：" + param1.getDate2());
-			count = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), null, param1).size();
+			count = us.getInfoListByUserId1(ub.getUserId(), ub.getUserJob(), null, param1).size();
 			int total = (count % pageSize == 0 ? count / pageSize : count / pageSize + 1);
 
 			int NowPage = 1;
@@ -97,18 +120,18 @@ public class StuManagerController {
 				}
 			}
 			pb = new PageBean(NowPage + "", count + "", pageSize + "", total + "");
-			lis = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), pb, param1);
-			session.setAttribute("param", param1);
+			lis = us.getInfoListByUserId1(ub.getUserId(), ub.getUserJob(), pb, param1);
+			model.addAttribute("param", param1);
 
 		} else {
 
-			count = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), null, p).size();
+			count = us.getInfoListByUserId1(ub.getUserId(), ub.getUserJob(), null, p).size();
 
 			int total = (count % pageSize == 0 ? count / pageSize : count / pageSize + 1);
 
 			int NowPage = 1;
 			if (nowpage != null) {
-				NowPage = Integer.parseInt(nowpage);
+				NowPage = Integer.parseInt(nowpage);	
 				if (NowPage > total) {
 					NowPage = total;
 				}
@@ -118,11 +141,16 @@ public class StuManagerController {
 			}
 
 			pb = new PageBean(NowPage + "", count + "", pageSize + "", total + "");
-			lis = us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), pb, p);
+			lis = us.getInfoListByUserId1(ub.getUserId(), ub.getUserJob(), pb, p);
 		}
 
 		model.addAttribute("stus", lis);
 		model.addAttribute("pb", pb);
+		if(ub!=null) {
+			int userId1 = ub.getUserId();
+			UserBean ub3 = userMs.getInfoById(userId1);
+			model.addAttribute("queryUb", ub3);
+		}
 		return "user/Student-index";
 	}
 	
@@ -135,13 +163,19 @@ public class StuManagerController {
 		int applyId = us.getApplyBeanByStuId(Integer.parseInt(stuid)).getApplyId();
 		ApplyBean ab = new ApplyBean(applyId, Integer.parseInt(stuid), 1, applytime, applyWay);
 		us.enterList(ab);
-
+		
 		return "redirect:userStudent.do";
 
 	}
 
 	@RequestMapping("userAddStudent.do")
-	public String addStudent() {
+	public String addStudent(Model model,HttpSession session) {
+		UserBean ub = (UserBean) session.getAttribute("ub");
+		if(ub!=null) {
+			int userId1 = ub.getUserId();
+			UserBean ub3 = userMs.getInfoById(userId1);
+			model.addAttribute("addUb", ub3);
+		}
 		return "/user/Student-add";
 
 	}
@@ -177,14 +211,40 @@ public class StuManagerController {
 	}
 
 	@RequestMapping("userEditStu.do")
-	public String editStudent() {
-		return "/user/Student-edit";
+	public String editStu(StuBean sb,ConsultBean cb,ApplyBean ab,@RequestParam List nrt,@RequestParam List nre) {
+		us.editStudent(sb, cb, ab, nrt, nre);	
+		
+		return "redirect:userIndex.do";
 
 	}
 
+	
+	@RequestMapping("userEditStudent.do")
+	public String editStudent(String stuid,Model model,HttpSession session) {
+		
+		int stuId=Integer.parseInt(stuid);
+		
+		StuBean sb = us.getStuBeanByStuId(stuId);
+		ConsultBean cb=us.getConsultBean(stuId);
+		ApplyBean stu_ab = us.getApplyBeanByStuId(stuId);
+		List<NewrecordBean> nbs=us.getNewRecord(stuId);
+		model.addAttribute("nbs", nbs);
+		model.addAttribute("sb", sb);
+		model.addAttribute("cb",cb);
+		model.addAttribute("ab",stu_ab);
+		UserBean ub = (UserBean) session.getAttribute("ub");
+		if(ub!=null) {
+			int userId1 = ub.getUserId();
+			UserBean ub3 = userMs.getInfoById(userId1);
+			model.addAttribute("editUb", ub3);
+		}
+		return "/user/Student-edit";
+	}
+	
 	@RequestMapping("userInfoStu.do")
-	public String infoStudent(String stuid, Model model) {
+	public String infoStudent(String stuid, Model model,HttpSession session) {
 
+		UserBean ub = (UserBean) session.getAttribute("ub");
 		int stuId=Integer.parseInt(stuid);
 		
 		StuBean sb = us.getStuBeanByStuId(stuId);
@@ -231,8 +291,203 @@ public class StuManagerController {
 		model.addAttribute("sour",sour);
 		model.addAttribute("pri",pri);
 		model.addAttribute("remark",remark);
+		if(ub!=null) {
+			int userId1 = ub.getUserId();
+			UserBean ub3 = userMs.getInfoById(userId1);
+			model.addAttribute("infoUb", ub3);
+		}
 		return "/user/Student-info";
+	}
+	
+	@RequestMapping("deleteStu.do")
+	public String excelStudent(String Str,HttpSession session) {
+		String[] Strs=Str.split(",");
+		for (int i = 0; i <Strs.length; i++) {
+			int id=Integer.parseInt(Strs[i]);
+			us.deleteStu(id);
+		}
+		return "redirect:userIndex.do";
 
 	}
+	
+	
+	@RequestMapping("userExcel.do")
+	public void  excelStudent(String Str,HttpServletResponse response,HttpSession session) throws IOException {
+		
+		OutputStream out=response.getOutputStream();
+		WritableWorkbook book=Workbook.createWorkbook(out);
+		WritableSheet sheet=book.createSheet("学员信息", 0);
+
+		Label idLabel=new Label(0,0,"序号");
+		Label nameLabel=new Label(1,0,"学员姓名");
+		Label consultDateLabel=new Label(2,0,"咨询日期");
+		Label onlineLabel=new Label(3,0,"线上咨询师");
+		Label offlineLabel=new Label(4,0,"线下咨询师");
+		Label telLabel=new Label(5,0,"电话");
+		Label qqLabel=new Label(6,0,"QQ");
+		Label wechatLabel=new Label(7,0,"微信");
+		Label ageLabel=new Label(8,0,"年龄");
+		Label sexLabel=new Label(9,0,"性别");
+		Label consultWayLabel=new Label(10, 0, "咨询方式");
+		Label priorityLabel=new Label(11, 0, "咨询优先级");
+		Label isApplyLabel=new Label(12,0,"是否报名");
+		Label newRecordDateLabel=new Label(13, 0, "最新跟进日期");
+		
+
+		try {
+			sheet.addCell(idLabel);
+			sheet.addCell(nameLabel);
+			sheet.addCell(consultDateLabel);
+			sheet.addCell(onlineLabel);
+			sheet.addCell(offlineLabel);
+			sheet.addCell(telLabel);
+			sheet.addCell(qqLabel);
+			sheet.addCell(wechatLabel);
+			sheet.addCell(ageLabel);
+			sheet.addCell(sexLabel);
+			sheet.addCell(consultWayLabel);
+			sheet.addCell(priorityLabel);
+			sheet.addCell(isApplyLabel);
+			sheet.addCell(newRecordDateLabel);
+
+
+			
+		} catch (RowsExceededException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WriteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//全部导出
+		if(Str.equals("all")) {
+			UserBean ub = (UserBean) session.getAttribute("ub");
+			List<StudentInfoBean> lis= us.getInfoListByUserId(ub.getUserId(), ub.getUserJob(), null, null);
+			for(int i=0;i<lis.size();i++) {
+				String star="";
+				StudentInfoBean sib=lis.get(i);
+				Label Label1=new Label(0,i+1,i+1+"");
+				Label Label2=new Label(1,i+1,sib.getStuName());
+				Label Label3=new Label(2,i+1,sib.getConsultDate());
+				Label Label4=new Label(3,i+1,sib.getOfflineId());
+				Label Label5=new Label(4,i+1,sib.getOnlineId());
+				Label Label6=new Label(5,i+1,sib.getStuTel());
+				Label Label7=new Label(6,i+1,sib.getStuQq());
+				Label Label8=new Label(7,i+1,sib.getStuWechat());
+				Label Label9=new Label(8,i+1,sib.getStuAge()+"");
+				Label Label10=new Label(9,i+1,sib.getStuSex()+"");
+				Label Label11=new Label(10,i+1,sib.getConsultWay());
+				for (int j = 0; j < sib.getConsultPriority(); j++) {
+					star=star+"★";
+				}
+				Label Label13=null;
+				Label Label12=new Label(11,i+1,star);
+				if(sib.getIsApply()==1) {
+				 Label13=new Label(12,i+1,"已报名");
+				}
+				if(sib.getIsApply()!=1) {
+				 Label13=new Label(12,i+1,"未报名");
+				}
+				Label Label14=new Label(13,i+1,sib.getRecentRecordTime());
+				try {
+
+					sheet.addCell(Label1);
+					sheet.addCell(Label2);
+					sheet.addCell(Label3);
+					sheet.addCell(Label4);
+					sheet.addCell(Label5);
+					sheet.addCell(Label6);
+					sheet.addCell(Label7);
+					sheet.addCell(Label8);
+					sheet.addCell(Label9);
+					sheet.addCell(Label10);
+					sheet.addCell(Label11);
+					sheet.addCell(Label12);
+					sheet.addCell(Label13);
+					sheet.addCell(Label14);
+
+
+				} catch (RowsExceededException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (WriteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			
+			}else {
+				//选中导出
+				String[] Strs=Str.split(",");
+				for (int i = 0; i <Strs.length; i++) {
+					String star="";
+					int id=Integer.parseInt(Strs[i]);
+					StudentInfoBean sib=us.getInfoByUserId(id);
+					Label Label1=new Label(0,i+1,i+1+"");
+					Label Label2=new Label(1,i+1,sib.getStuName());
+					Label Label3=new Label(2,i+1,sib.getConsultDate());
+					Label Label4=new Label(3,i+1,sib.getOfflineId());
+					Label Label5=new Label(4,i+1,sib.getOnlineId());
+					Label Label6=new Label(5,i+1,sib.getStuTel());
+					Label Label7=new Label(6,i+1,sib.getStuQq());
+					Label Label8=new Label(7,i+1,sib.getStuWechat());
+					Label Label9=new Label(8,i+1,sib.getStuAge()+"");
+					Label Label10=new Label(9,i+1,sib.getStuSex()+"");
+					Label Label11=new Label(10,i+1,sib.getConsultWay());
+					for (int j = 0; j < sib.getConsultPriority(); j++) {
+						star=star+"★";
+					}
+					Label Label13=null;
+					Label Label12=new Label(11,i+1,star);
+					if(sib.getIsApply()==1) {
+					 Label13=new Label(12,i+1,"已报名");
+					}
+					if(sib.getIsApply()!=1) {
+					 Label13=new Label(12,i+1,"未报名");
+					}
+					Label Label14=new Label(13,i+1,sib.getRecentRecordTime());
+					try {
+
+						sheet.addCell(Label1);
+						sheet.addCell(Label2);
+						sheet.addCell(Label3);
+						sheet.addCell(Label4);
+						sheet.addCell(Label5);
+						sheet.addCell(Label6);
+						sheet.addCell(Label7);
+						sheet.addCell(Label8);
+						sheet.addCell(Label9);
+						sheet.addCell(Label10);
+						sheet.addCell(Label11);
+						sheet.addCell(Label12);
+						sheet.addCell(Label13);
+						sheet.addCell(Label14);
+
+					} catch (RowsExceededException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (WriteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				
+			}
+		response.addHeader("Content-Disposition","attachment;filename="+new String(("学员信息.xls").getBytes("GB2312"),"iso8859-1"));
+		book.write();
+			try {
+				book.close();
+			} catch (WriteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		out.flush();
+		out.close();		
+	}
+
 
 }

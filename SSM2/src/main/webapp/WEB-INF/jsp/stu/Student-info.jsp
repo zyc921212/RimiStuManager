@@ -20,6 +20,8 @@
 <!-- VENDOR CSS -->
 <link rel="stylesheet"
 	href="<%=basePath%>RXF/assets/vendor/bootstrap/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="<%=basePath%>RXF/assets/css/common.css"/>
+	
 <link rel="stylesheet"
 	href="<%=basePath%>RXF/assets/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
@@ -39,6 +41,7 @@
 <script src="<%=basePath%>RXF/assets/vendor/jquery/jquery.min.js"></script>
 <script
 	src="<%=basePath%>RXF/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+	
 <script
 	src="<%=basePath%>RXF/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <script
@@ -77,6 +80,34 @@
     	    }else if(${stu_ab.isApply}==document.getElementById('radio7').value){
         	    document.getElementById('radio7').checked=true;
     	    }
+    	});
+    });
+    
+    var w,h,className;
+    function getSrceenWH(){
+    	w = $(window).width();
+    	h = $(window).height();
+    	$('#dialogBg').width(w).height(h);
+    }
+
+    window.onresize = function(){  
+    	getSrceenWH();
+    }  
+    $(window).resize();  
+
+    $(function(){
+    	getSrceenWH();
+    	
+    	$('.bounceInDown').click(function(){
+    		className = $(this).attr('class');
+    		$('#dialogBg').fadeIn(300);
+    		$('#dialog').removeAttr('class').addClass('animated '+className+'').fadeIn();
+    	});
+    	
+    	$('.claseDialogBtn').click(function(){
+    		$('#dialogBg').fadeOut(300,function(){
+    			$('#dialog').addClass('bounceOutUp').fadeOut();
+    		});
     	});
     });
         
@@ -118,10 +149,9 @@
 							alt="Avatar"> <span>${ub.userName}</span> <i
 							class="icon-submenu lnr lnr-chevron-down"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="#"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
-							<li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message(未实现)</span></a></li>
-							<li><a href="#"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
-							<li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>登出</span></a></li>
+							<li><a href="UserInfo.do?InfoUserId=${ub.userId}"><i class="lnr lnr-user"></i> <span>我的信息</span></a></li>
+                                <li><a href="javascript:;" class="bounceInDown"><i class="lnr lnr-cog"></i> <span>修改密码</span></a></li>
+                                <li><a href="javascript:logout()"><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
 						</ul></li>
 				</ul>
 			</div>
@@ -139,7 +169,7 @@
 					</a>
 						<div id="subPages1" class="collapse">
 							<ul class="nav">
-								<li><a href="myindex.do" class="">学员跟进</a></li>
+								<li><a href="index.do" class="">学员跟进</a></li>
 								<li><a href="addStudent.do" class="">添加学员</a></li>
 							</ul>
 						</div></li>
@@ -149,8 +179,8 @@
 					</a>
 						<div id="subPages2" class="collapse">
 							<ul class="nav">
-								<li><a href="user.html" class="">我的信息</a></li>
-								<li><a href="Student-add.html" class="">更改密码</a></li>
+							<li><a href="UserInfo.do?InfoUserId=${ub.userId}" class="">我的资料</a></li>
+                                    <li><a href="javascript:;" class="bounceInDown">更改密码</a></li>
 							</ul>
 						</div></li>
 				</ul>
@@ -421,7 +451,17 @@
 	</footer>
 	<!-- END WRAPPER -->
 	<!-- Javascript -->
-
+ <div >
+		<div id="dialogBg"></div>
+		<div id="dialog" class="animated">
+			<img class="dialogIco" width="50" height="50" src="<%=basePath%>RXF/assets/img/ico.png" alt="" />
+			<div class="dialogTop">
+				<a href="javascript:;" class="claseDialogBtn">关闭</a>
+			</div>
+			<iframe src="password.do" frameborder="0" scrolling="no" style="width: 300px; height: 300px;">
+			</iframe>
+		</div>
+	</div>
 </body>
 
 </html>

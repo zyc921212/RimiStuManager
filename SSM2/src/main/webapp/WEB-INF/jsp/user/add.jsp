@@ -99,7 +99,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 	        $("#userPs1").change(function(){
 	        	$("#sp1").html("<font color='red'>√</font>");
 	        });
-	        $("#userPs2").change(function(){
+	        $("#userPs2").blur(function(){
 	        	var userPs1 =$.trim($("#userPs1").val());
 		        var userPs2 = $.trim($("#userPs2").val());
 	        	if(equals(userPs1,userPs2) != true){
@@ -116,19 +116,16 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
 	        
 	        $("#addBtn").click(function() {
 	        	var userEamil = $("#userEamil").val();
-		        if(userEamil==""){
-		        	$("#sp3").html("<font color='red'>必填</font>");
-		        	$("#addBtn").attr({"disabled":true});
-		        }else{
-		        	$("#addBtn").attr({"disabled":false});
-		        }
-		        
-		        var userPhone = $("#userPhone").val();
-		        if(userPhone==""){
-		        	$("#sp4").html("<font color='red'>必填</font>");
-		        	$("#addBtn").attr({"disabled":true});
-		        }else{
-		        	$("#addBtn").attr({"disabled":false});
+	        	var userPhone = $("#userPhone").val();        
+		        var loginName1 = $("#LoginName1").val();
+		        var Name1 = $("#Name1").val();
+		        var userPs1 =$.trim($("#userPs1").val());
+		        var userPs2 = $.trim($("#userPs2").val());
+		        var Role1 = $("#Role1").val();
+		        var Job1 = $("#Job1").val();
+		        var JobState1 = $("#JobState1").val();
+		        if(loginName1 =="" || Name1=="" || userPs1=="" || userPs2==""|| Role1 ==0|| Job1==0 || JobState1==0 ||userEamil=="" ||userPhone==""){
+		        	alert("*为必填");		        	
 		        }
 	        });
         });
@@ -245,14 +242,14 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     <center><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;用户账号</center></td>
                                 <td width="40%">
                                 	<font color="red">*</font>&nbsp;&nbsp;
-                                	<input type="email" name="userLoginName" placeholder="${checkLoginName}" value=""/>
+                                	<input type="text" name="userLoginName" placeholder="${checkLoginName}" value="" id="LoginName1"/>
                                 	<span><font color="red">${checkIsok}</font></span>
                                 </td>
                                 <td width="10%" class="tableleft">
                                     <center><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;用户姓名</center></td>
                                 <td width="40%">
                                 	<font color="red">*</font>&nbsp;&nbsp;
-                                	<input type="text" name="userName" value=""/>
+                                	<input type="text" name="userName" value="" id="Name1"/>
                                 </td>
                             </tr>
                             <tr>
@@ -311,7 +308,7 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                      <center><i class="glyphicon glyphicon-flag"></i>&nbsp;&nbsp;用户角色</center></td>
                                 <td width="40%">
                                 	<font color="red">*</font>&nbsp;&nbsp;
-                                    <select name="userRole">
+                                    <select name="userRole" id="Role1">
                                     	<option value="0">--请选择--</option>
                                     	<c:forEach var="role" items="${addRole}">
 						    				<option value="${role.roleId}">${role.roleName}</option>
@@ -326,8 +323,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     <center><i class="glyphicon glyphicon-th-large"></i>&nbsp;&nbsp;用户职位</center></td>
                                 <td width="40%">
                                 	<font color="red">*</font>&nbsp;&nbsp;
-                                    <select name="userJob">
-						    			<option value="0">--请选择--</option>
+                                    <select name="userJob" id="Job1">
+						    			<option value="0" >--请选择--</option>
 						    			<c:forEach var="job" items="${addJob}">
 						    				<option value="${job.jobId}">${job.jobName}</option>
 						    			</c:forEach>
@@ -340,8 +337,8 @@ String basePath = request.getScheme()+"://" +request.getServerName()+":" +reques
                                     <center><i class="glyphicon glyphicon-pushpin"></i>&nbsp;&nbsp;工作状态</center></td>
                                 <td width="40%">
                                 	<font color="red">*</font>&nbsp;&nbsp;
-                                    <select name="userJobState">
-						    			<option value="0">--请选择--</option>
+                                    <select name="userJobState" id="JobState1">
+						    			<option value="0" >--请选择--</option>
 						    			<c:forEach var="JobState" items="${addJobState}">
 						    				<option value="${JobState.jobstateId}">${JobState.jobstateName}</option>
 						    			</c:forEach>

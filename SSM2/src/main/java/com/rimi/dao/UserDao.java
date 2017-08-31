@@ -27,7 +27,10 @@ public interface UserDao {
 	public ConsultBean getConsultBean(int stuid);
 	
 	public List<StudentInfoBean> getInfoListByUserId(Map pMap);
+	public List<StudentInfoBean> getInfoListByUserId1(Map pMap);
+
 	public StudentInfoBean getInfoByUserId(int stuid);
+	
 	//咨询方式
 	public List<ConsultWayBean> getConsultWayByUserId();
 	public ConsultWayBean getConsultWay(int stuid);
@@ -80,7 +83,12 @@ public interface UserDao {
 	public void editApplyBean(Map m);
 	//删除跟进信息
 	public void deleteAllNR(int stuid);
-	
+	//删除报名信息
+	public void deleteApply(int stuid);
+	//删除咨询信息
+	public void deleteConsult(int stuid);
+	//删除学生信息 
+	public void deleteStu(int stuid);
 
 }
 
